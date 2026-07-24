@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Draft Analysis</title>
@@ -155,27 +155,81 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 .sdot-item.ban{border-color:rgba(239,83,80,.3);background:rgba(239,83,80,.05);color:var(--red);}
 .sdot-item.both{border-color:rgba(206,147,216,.3);background:rgba(206,147,216,.06);color:var(--purple);}
 .sdot-item.none{opacity:.4;}
+/* ── Matches tab ──────────────────────────────────────────────────────────── */
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mcard{background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.mtop{display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--panel2);border-bottom:1px solid var(--border);}
+.mpatch{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--gold);border:1px solid rgba(200,155,60,.3);border-radius:3px;padding:2px 6px;flex-shrink:0;}
+.mtitle{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mvs{color:var(--text2);font-size:.6rem;font-weight:700;}
+.mdate{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--text2);flex-shrink:0;}
+.mban-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border);}
+.mban-side{display:flex;gap:4px;flex:1;}.mban-side.right{justify-content:flex-end;}
+.mban-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:1px;color:var(--text2);width:34px;flex-shrink:0;}
+.ban-ico{width:20px;height:20px;border-radius:4px;object-fit:cover;border:1px solid var(--red-border);filter:grayscale(.4);opacity:.85;}
+
+.morder-row{display:flex;flex-wrap:wrap;gap:3px;padding:7px 10px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.008);}
+.oico-wrap{position:relative;flex-shrink:0;}
+.oico{width:22px;height:22px;border-radius:4px;object-fit:cover;border:2px solid var(--border2);display:block;}
+.oico.blue{border-color:var(--blue);}.oico.red{border-color:var(--red);}
+.oico.ban{filter:grayscale(.7);opacity:.55;}
+.oico-turn{position:absolute;top:-5px;left:-3px;font-family:'JetBrains Mono',monospace;font-size:.42rem;color:var(--text2);background:var(--panel);border-radius:2px;padding:0 1px;line-height:1.1;}
+.oico-x{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--red);font-size:.7rem;font-weight:900;text-shadow:0 0 2px #000;}
+
+.mup-row{display:grid;grid-template-columns:28px 1fr 18px 1fr 28px;align-items:center;gap:6px;padding:4px 10px;border-bottom:1px solid var(--border);}
+.mup-row:last-child{border-bottom:none;}
+.mup-role{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:800;letter-spacing:1px;text-align:center;}
+.mup-champ{display:flex;align-items:center;gap:6px;}.mup-champ.right{flex-direction:row-reverse;text-align:right;}
+.mup-ico{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid var(--border2);flex-shrink:0;}
+.mup-ico.win{border-color:var(--green);}
+.mup-name{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mup-vs{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text2);text-align:center;}
+.mresult{display:flex;align-items:center;justify-content:center;gap:6px;padding:5px;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:3px;}
+.mresult.win{background:rgba(76,175,80,.08);color:var(--green);}
+.mresult.loss{background:rgba(239,83,80,.08);color:var(--red);}
+.msearch{width:100%;max-width:340px;padding:6px 10px;border-radius:5px;border:1px solid var(--border2);background:var(--panel);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.68rem;outline:none;}
+.msearch:focus{border-color:var(--gold);}
+.msearch::placeholder{color:var(--text2);}
+
+/* ── Players tab ──────────────────────────────────────────────────────────── */
+.pchips{display:flex;gap:6px;flex-wrap:wrap;}
+.pchip{padding:5px 12px;border-radius:5px;cursor:pointer;border:1px solid var(--border2);background:var(--panel);color:var(--text2);font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:1px;transition:all .12s;}
+.pchip:hover{color:var(--text);}
+.pchip.active{border-color:var(--gold);background:rgba(200,155,60,.1);color:var(--gold);}
+.ppool{display:flex;gap:6px;flex-wrap:wrap;}
+.ppool-item{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border);border-radius:5px;padding:5px 9px;font-family:'JetBrains Mono',monospace;font-size:.62rem;}
+.phist-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.phist-tbl{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.phist-tbl th{font-family:'Barlow Condensed',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text2);padding:6px 8px;border-bottom:1px solid var(--border);text-align:left;background:var(--panel2);}
+.phist-tbl td{font-family:'JetBrains Mono',monospace;font-size:.68rem;padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.phist-tbl tr:last-child td{border-bottom:none;}
+.phist-champ{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;color:var(--text);}
+.phist-ico{width:22px;height:22px;border-radius:50%;object-fit:cover;border:1px solid var(--border2);flex-shrink:0;}
+.phist-bp{text-align:center;font-weight:800;}
+.phist-bp.y{color:var(--green);}.phist-bp.n{color:var(--red);}.phist-bp.u{color:var(--text2);}
 </style>
 </head>
 <body>
 
 <div class="hdr">
   <span class="hdr-title">📊 DRAFT ANALYSIS</span>
-  <span class="hdr-season" id="seasonInfo">cargando...</span>
+  <span class="hdr-season" id="seasonInfo">loading...</span>
   <div class="side-tabs">
-    <div class="side-tab all active" id="stAll">TODOS</div>
+    <div class="side-tab all active" id="stAll">ALL</div>
     <div class="side-tab blue" id="stBlue">🔵 BLUE</div>
     <div class="side-tab red" id="stRed">🔴 RED</div>
   </div>
 </div>
 
 <div class="nav">
-  <div class="nav-tab active" data-p="overview">RESUMEN</div>
+  <div class="nav-tab active" data-p="overview">OVERVIEW</div>
   <div class="nav-tab" data-p="picks">PICKS</div>
   <div class="nav-tab" data-p="bans">BANS</div>
   <div class="nav-tab" data-p="slots">SLOTS</div>
-  <div class="nav-tab" data-p="presence">PRESENCIA</div>
+  <div class="nav-tab" data-p="presence">PRESENCE</div>
   <div class="nav-tab" data-p="matchups">VERSUS</div>
+  <div class="nav-tab" data-p="matches">MATCHES</div>
+  <div class="nav-tab" data-p="players">PLAYERS</div>
 </div>
 
 <div class="content">
@@ -185,6 +239,8 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
   <div class="pv" id="pv-slots"></div>
   <div class="pv" id="pv-presence"></div>
   <div class="pv" id="pv-matchups"></div>
+  <div class="pv" id="pv-matches"></div>
+  <div class="pv" id="pv-players"></div>
 </div>
 
 <script>
@@ -198,12 +254,18 @@ const ROLE_ORDER=['top','jgl','mid','bot','sup'];
 let DD=''; const CK={}; let currentSide='all';
 let ROLES_MAP = {};
 
-// Cargar roles.json desde Flask
-fetch('http://localhost:5000/output/roles.json')
-  .catch(() => fetch('roles.json'))
-  .then(r => r.ok ? r.json() : {})
+// Load roles: prefer the merged /api/roles endpoint (all series folders combined),
+// fall back to the old root-only roles.json for older app_scouting.py versions.
+fetch('http://localhost:5000/api/roles')
+  .then(r => r.ok ? r.json() : Promise.reject())
   .then(d => { ROLES_MAP = d; })
-  .catch(() => {});
+  .catch(() => {
+    fetch('http://localhost:5000/output/roles.json')
+      .catch(() => fetch('roles.json'))
+      .then(r => r.ok ? r.json() : {})
+      .then(d => { ROLES_MAP = d; })
+      .catch(() => {});
+  });
 
 async function loadDD(){
   try{
@@ -225,8 +287,8 @@ function deduplicateGames(games) {
   const seen = new Map();
   const result = [];
   const sorted = [...games].sort((a, b) => {
-    const aRoot = (a._series_label === 'Serie') ? 1 : 0;
-    const bRoot = (b._series_label === 'Serie') ? 1 : 0;
+    const aRoot = (a._series_label === 'Series') ? 1 : 0;
+    const bRoot = (b._series_label === 'Series') ? 1 : 0;
     return aRoot - bRoot;
   });
   for (const g of sorted) {
@@ -344,6 +406,8 @@ function compute(games){
   const ourBans={};
   const theirBans={};
   const matchups=[];
+  const playerHistory={};
+  const playerChampStats={};
 
   games.forEach(g=>{
     const sides=g.team_sides||{};
@@ -393,17 +457,49 @@ function compute(games){
     (g.picks?.[tid2]||[]).forEach(tp=>{
       ourPickList.forEach(op=>{matchups.push({our:op.championName,their:tp.championName,won});});
     });
+
+    // ── Per-player, per-game history: champ vs enemy same role, blind/counter pick ──
+    const enemyPickList=g.picks?.[tid2]||[];
+    ourPickList.forEach(p=>{
+      const c=p.championName;if(!c)return;
+      const n_=nick(p.playerName);
+      let rk=roleKey(p.role);
+      if(!rk){const fromJson=ROLES_MAP[n_.toLowerCase()];if(fromJson)rk=roleKey(fromJson);}
+      // Same-role opponent pick, resolved via ROLES_MAP fallback like elsewhere
+      let enemyPick=null;
+      for(const ep of enemyPickList){
+        let erk=roleKey(ep.role);
+        if(!erk){const fromJson=ROLES_MAP[nick(ep.playerName).toLowerCase()];if(fromJson)erk=roleKey(fromJson);}
+        if(rk && erk===rk){enemyPick=ep;break;}
+      }
+      let blind=null; // null = unknown (missing turn/role data)
+      if(enemyPick && p.globalPickTurn!==undefined && enemyPick.globalPickTurn!==undefined){
+        blind = p.globalPickTurn < enemyPick.globalPickTurn;
+      }
+      if(!playerHistory[n_])playerHistory[n_]=[];
+      playerHistory[n_].push({
+        champ:c, side:ourSide, won,
+        enemyChamp: enemyPick?enemyPick.championName:null,
+        blind,
+        label: g._series_label ? g._series_label.replace(/_/g,' ') : '',
+        gameNum: g.game_num||1,
+      });
+      if(!playerChampStats[n_])playerChampStats[n_]={};
+      if(!playerChampStats[n_][c])playerChampStats[n_][c]={games:0,wins:0};
+      playerChampStats[n_][c].games++;
+      if(won)playerChampStats[n_][c].wins++;
+    });
   });
 
   const fearlessRates = buildFearlessRates(games, OUR);
   const presenceBySeries = buildPresenceBySeries(games, OUR);
 
-  return{total,wins,picks,playerPicks,playerRoles,pickSlots,banSlots,ourBans,theirBans,matchups,OUR,fearlessRates,presenceBySeries};
+  return{total,wins,picks,playerPicks,playerRoles,pickSlots,banSlots,ourBans,theirBans,matchups,OUR,fearlessRates,presenceBySeries,playerHistory,playerChampStats};
 }
 
 function renderOverview(st,games){
   const el=document.getElementById('pv-overview');
-  if(!games.length){el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">Sin datos</p>';return;}
+  if(!games.length){el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data</p>';return;}
   const{total,wins,picks,theirBans,OUR,fearlessRates}=st;
   const wr=pct(wins,total);
   const blueG=games.filter(g=>(g.team_sides||{})[OUR]==='blue').length;
@@ -420,7 +516,7 @@ function renderOverview(st,games){
   const maxB=sortedB[0]?.[1]||1;
 
   el.innerHTML=`
-    <div class="sec">ESTADÍSTICAS GENERALES</div>
+    <div class="sec">OVERALL STATS</div>
     <div class="cards">
       <div class="card gold"><span class="cv">${total}</span><span class="cl">Games</span></div>
       <div class="card ${wr>=50?'blue':'red'}"><span class="cv ${wr>=50?'g':'r'}">${wr}%</span><span class="cl">Win Rate</span></div>
@@ -431,7 +527,10 @@ function renderOverview(st,games){
     </div>
     <div class="sec" style="margin-top:6px">PICKS — FEARLESS RATE</div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--text2);padding:4px 0 6px;">
-      🔒 Fearless: pick en G1 = no disponible en G2 de la misma serie. El % refleja picks/juegos disponibles.
+      🔒 Fearless: pick in G1 = not available in G2 of the same series. % reflects picks/available games.
+      &nbsp;·&nbsp; Threat: <span style="color:var(--red)">HIGH</span> = presence ≥70% or ban rate ≥50% ·
+      <span style="color:var(--gold)">MED</span> = ≥35%/≥25% · <span style="color:var(--text2)">LOW</span> = below that
+      (same formula as the opponent PDF).
     </div>
     <div class="cgrid">${sortedP.map(([c,d])=>{
       const fr=fearlessRates[c]||{picked:0,available:1,rate:0};
@@ -439,14 +538,19 @@ function renderOverview(st,games){
       const top=Object.entries(d.players).sort((a,b)=>b[1]-a[1])[0];
       const rk=Object.entries(d.roles).sort((a,b)=>b[1]-a[1])[0]?.[0];
       const fearPct=Math.round(fr.rate*100);
+      const banRecv=theirBans[c]||0;
+      const presence=pct(d.count+banRecv,total);
+      const banRate=pct(banRecv,total);
+      const threat = (presence>=70||banRate>=50) ? 'HIGH' : (presence>=35||banRate>=25) ? 'MED' : 'LOW';
+      const threatCol = threat==='HIGH'?'var(--red)':threat==='MED'?'var(--gold)':'var(--text2)';
       return `<div class="cc">
         <div class="cico">${img(c,38)}<div class="cbadge">${d.count}</div></div>
         <div class="ci">
-          <span class="cn">${c}</span>
+          <span class="cn">${c} <span style="font-family:'JetBrains Mono',monospace;font-size:.48rem;font-weight:700;padding:1px 4px;border-radius:3px;border:1px solid ${threatCol};color:${threatCol};vertical-align:middle;" title="Presence ${presence}% · Ban rate ${banRate}%">${threat}</span></span>
           <span class="cs">
             ${top?`<span style="color:var(--gold2)">${top[0]}</span>`:''}
             ${rk?`<span style="color:var(--${ROLE_CSS[rk]})">${ROLE_LBL[rk]}</span>`:''}
-            <span class="fear-rate" title="Fearless: ${fr.picked}/${fr.available} juegos disponibles">${fearPct}%</span>
+            <span class="fear-rate" title="Fearless: ${fr.picked}/${fr.available} available games">${fearPct}%</span>
             ${wrSpan(wr2)}
           </span>
           <div class="cbar-fear"><div class="cbf-fear" style="width:${fearPct}%"></div></div>
@@ -454,7 +558,7 @@ function renderOverview(st,games){
         </div>
       </div>`;
     }).join('')}</div>
-    <div class="sec" style="margin-top:6px">MÁS BANEADOS CONTRA NOSOTROS</div>
+    <div class="sec" style="margin-top:6px">MOST BANNED AGAINST US</div>
     <div class="cgrid">${sortedB.map(([c,n])=>`<div class="cc ban">
       <div class="cico" style="filter:grayscale(40%) brightness(.65)">${img(c,38)}<div class="cbadge r">${n}</div></div>
       <div class="ci">
@@ -469,20 +573,20 @@ function renderPicks(st){
   const el=document.getElementById('pv-picks');
   const{playerPicks,playerRoles,picks,fearlessRates}=st;
   const ROLE_COL={top:'var(--top)',jgl:'var(--jgl)',mid:'var(--mid)',bot:'var(--bot)',sup:'var(--sup)'};
-  if(!Object.keys(playerPicks).length){el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">Sin datos</p>';return;}
+  if(!Object.keys(playerPicks).length){el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data</p>';return;}
 
   const roleIdx=r=>ROLE_ORDER.indexOf(r);
   const playersSorted=Object.entries(playerPicks).sort((a,b)=>{
-    // Rol desde JSONL
+    // Role from JSONL
     let ra=Object.entries(playerRoles[a[0]]||{}).sort((x,y)=>y[1]-x[1])[0]?.[0];
     let rb=Object.entries(playerRoles[b[0]]||{}).sort((x,y)=>y[1]-x[1])[0]?.[0];
-    // Fallback a ROLES_MAP si no hay rol del JSONL
+    // Fallback to ROLES_MAP if no role from JSONL
     if(!ra){ const rk=roleKey(ROLES_MAP[a[0].toLowerCase()]||''); if(rk) ra=rk; }
     if(!rb){ const rk=roleKey(ROLES_MAP[b[0].toLowerCase()]||''); if(rk) rb=rk; }
     return roleIdx(ra||'zzz')-roleIdx(rb||'zzz');
   });
 
-  el.innerHTML=`<div class="fearless-note">🔒 % = Fearless rate (picks ÷ games disponibles). Pick en G1 = G2 no cuenta como disponible.</div>`
+  el.innerHTML=`<div class="fearless-note">🔒 % = Fearless rate (picks ÷ available games). Pick in G1 = G2 does not count as available.</div>`
   +playersSorted.map(([player,champs])=>{
     const sorted=Object.entries(champs).sort((a,b)=>b[1]-a[1]);
     const roleCount=playerRoles[player]||{};
@@ -500,7 +604,7 @@ function renderPicks(st){
       const wr2=pd.count?pd.wins/pd.count:null;
       const fr=fearlessRates[c]||{rate:null,picked:0,available:0};
       const fearPct=fr.available>0?Math.round(fr.rate*100):null;
-      return `<div class="pcard" title="${c}: ${fr.picked}/${fr.available} juegos disponibles">
+      return `<div class="pcard" title="${c}: ${fr.picked}/${fr.available} available games">
         <div class="pcard-ico">${img(c,52)}<div class="pcard-cnt">${n}</div></div>
         <div class="pcard-name">${c}</div>
         <div class="pcard-wr">
@@ -536,10 +640,10 @@ function renderBans(st){
           <div class="prbb"><div class="prbf ban" style="width:${pct(n,max)}%"></div></div>
           <span class="prv">${n}</span>
         </div></div>
-      </div>`).join('')||'<span class="nodata">Sin datos</span>';
+      </div>`).join('')||'<span class="nodata">No data</span>';
   }
   el.innerHTML=`<div class="two">
-    <div class="cpanel rp"><div class="chdr r"><div class="sdot" style="background:var(--red)"></div>SUS BANS</div>${rows(ourBans,maxO)}</div>
+    <div class="cpanel rp"><div class="chdr r"><div class="sdot" style="background:var(--red)"></div>THEIR BANS</div>${rows(ourBans,maxO)}</div>
     <div class="cpanel bp"><div class="chdr b"><div class="sdot" style="background:var(--blue)"></div>LES BANEAN</div>${rows(theirBans,maxT)}</div>
   </div>`;
 }
@@ -558,7 +662,16 @@ function renderSlots(st){
   }
   function champMini(arr){
     if(!arr.length)return`<div class="nodata">—</div>`;
-    return`<div class="cmini">${arr.map(({c,player,rk})=>`<div class="cml"><div class="rdot ${rk||''}"></div><span class="cname">${c}</span><span class="cplayer">· ${player}</span></div>`).join('')}</div>`;
+    // Group by champion, keeping first-seen order (ties keep this relative order)
+    const order=[]; const agg={};
+    arr.forEach(({c,player,rk})=>{
+      if(!agg[c]){ agg[c]={c,rk,n:0,players:[]}; order.push(c); }
+      agg[c].n++;
+      if(player && !agg[c].players.includes(player)) agg[c].players.push(player);
+    });
+    // Array.sort is stable in all modern JS engines, so equal counts keep first-seen order
+    const rows=order.map(c=>agg[c]).sort((a,b)=>b.n-a.n);
+    return`<div class="cmini">${rows.map(({c,rk,n,players})=>`<div class="cml"><div class="rdot ${rk||''}"></div><span class="cname">${c}</span><span class="bcnt">${n>1?`×${n}`:''}</span><span class="cplayer">· ${players.join(', ')}</span></div>`).join('')}</div>`;
   }
   function banPills(obj){
     const arr=Object.entries(obj).sort((a,b)=>b[1]-a[1]);
@@ -566,13 +679,13 @@ function renderSlots(st){
     return`<div class="bpills">${arr.map(([c,n])=>`<div class="bpill"><div class="bico">${img(c,20)}</div><span>${c}</span><span class="bcnt">${n>1?`×${n}`:''}</span></div>`).join('')}</div>`;
   }
   const SLOT_DESC={P1:'#7/8 · Blind pick',P2:'#9/10',P3:'#11/12',P4:'#17/18 · Pre-last',P5:'#19/20 · Last pick'};
-  const BAN_DESC={B1:'Turn 1 · Alta prioridad',B2:'Turn 3',B3:'Turn 5',B4:'Turn 13 · Fase 2',B5:'Turn 15'};
+  const BAN_DESC={B1:'Turn 1 · High priority',B2:'Turn 3',B3:'Turn 5',B4:'Turn 13 · Phase 2',B5:'Turn 15'};
   const pickRows=['P1','P2','P3','P4','P5'].map(slot=>`<tr><td><div class="slc"><div class="sll" style="color:var(--gold)">${slot}</div><div class="sld">${SLOT_DESC[slot]}</div></div></td><td>${roleBars(pickSlots[slot]?.b?.roles||{})}</td><td>${roleBars(pickSlots[slot]?.r?.roles||{})}</td><td>${champMini(pickSlots[slot]?.b?.champs||[])}</td><td>${champMini(pickSlots[slot]?.r?.champs||[])}</td></tr>`).join('');
   const banRows=['B1','B2','B3','B4','B5'].map(slot=>`<tr><td><div class="slc"><div class="sll" style="color:var(--red)">${slot}</div><div class="sld">${BAN_DESC[slot]}</div></div></td><td>${banPills(banSlots[slot]?.b||{})}</td><td>${banPills(banSlots[slot]?.r||{})}</td></tr>`).join('');
   el.innerHTML=`<div class="legend">${ROLE_ORDER.map(rk=>`<span class="leg"><div class="ldot ${rk}"></div><span style="color:var(--${rk})">${ROLE_LBL[rk]}</span></span>`).join('')}</div>
-    <div class="sec">PICKS POR SLOT — ROL EN CADA TURNO</div>
+    <div class="sec">PICKS BY SLOT — ROLE AT EACH TURN</div>
     <table class="stbl"><thead><tr><th style="width:110px">SLOT</th><th style="width:160px"><div class="shdr b"><div class="sdot" style="background:var(--blue)"></div>BLUE</div></th><th style="width:160px"><div class="shdr r"><div class="sdot" style="background:var(--red)"></div>RED</div></th><th><div class="shdr" style="color:var(--text2)">BLUE — CHAMPS</div></th><th><div class="shdr" style="color:var(--text2)">RED — CHAMPS</div></th></tr></thead><tbody>${pickRows}</tbody></table>
-    <div class="sec" style="margin-top:8px">BANS POR SLOT</div>
+    <div class="sec" style="margin-top:8px">BANS BY SLOT</div>
     <table class="stbl"><thead><tr><th style="width:110px">SLOT</th><th><div class="shdr b"><div class="sdot" style="background:var(--blue)"></div>BLUE SIDE</div></th><th><div class="shdr r"><div class="sdot" style="background:var(--red)"></div>RED SIDE</div></th></tr></thead><tbody>${banRows}</tbody></table>`;
 }
 
@@ -587,7 +700,7 @@ function renderPresence(st, games){
     });
 
   if(!sorted.length){
-    el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">Sin datos</p>';
+    el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data</p>';
     return;
   }
 
@@ -596,9 +709,9 @@ function renderPresence(st, games){
     <span class="sdot-item pick">🗡 pick</span>
     <span class="sdot-item ban">🚫 ban</span>
     <span class="sdot-item both">⚡ pick+ban</span>
-    <span class="sdot-item none">— disponible, no apareció</span>
+    <span class="sdot-item none">— available, did not appear</span>
     <span class="sdot-item" style="opacity:.35;border-style:dashed">🔒 fearless locked</span>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text2);margin-left:6px;">% = apariciones / games disponibles</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--text2);margin-left:6px;">% = appearances / available games</span>
   </div>`;
 
   const rows = sorted.map(([c, d]) => {
@@ -615,7 +728,7 @@ function renderPresence(st, games){
         else if(g.banned)        { cls='ban';  label=`G${g.gn}🚫`; }
         else                     { cls='none'; label=`G${g.gn} —`; }
         return `<span class="sdot-item ${cls}" title="G${g.gn}: ${
-          g.picked&&g.banned?'pick + ban rival':g.picked?'pickeado':g.banned?'baneado por rival':'disponible, no apareció'
+          g.picked&&g.banned?'pick + rival ban':g.picked?'picked':g.banned?'banned by rival':'available, did not appear'
         }">${label}</span>`;
       }).join('');
 
@@ -654,7 +767,7 @@ function renderPresence(st, games){
   }).join('');
 
   el.innerHTML = `
-    <div class="sec">PRESENCIA = PICKS PROPIOS + BANS RIVALES · % = apariciones / games disponibles</div>
+    <div class="sec">PRESENCE = OWN PICKS + RIVAL BANS · % = appearances / available games</div>
     ${legend}
     <div class="pres-wrap">${rows}</div>`;
 }
@@ -670,7 +783,7 @@ function renderMatchups(st){
   });
   const byOur={};
   Object.values(pairs).forEach(p=>{if(!byOur[p.our])byOur[p.our]=[];byOur[p.our].push(p);});
-  el.innerHTML=`<div class="sec">WIN RATE DE NUESTROS PICKS CONTRA LOS SUYOS</div>
+  el.innerHTML=`<div class="sec">WIN RATE OF OUR PICKS AGAINST THEIRS</div>
     <div style="display:flex;flex-direction:column;gap:6px">
     ${Object.entries(byOur).map(([ourC,vs])=>`<div class="mblock">
       <div class="mhdr"><div style="width:24px;height:24px;border-radius:50%;overflow:hidden;flex-shrink:0">${img(ourC,24)}</div>${ourC}</div>
@@ -681,11 +794,211 @@ function renderMatchups(st){
     </div>`).join('')}</div>`;
 }
 
+function dateFromLabel(label){
+  const m=(label||'').match(/(\d{2})-(\d{2})-(\d{4})$/);
+  if(!m) return null;
+  return `${m[3]}-${m[2]}-${m[1]}`; // YYYY-MM-DD for sorting
+}
+
+function buildMatchCard(g, OUR){
+  const enemyId=Object.keys(g.team_names||{}).find(t=>t!==OUR);
+  const ourName=g.team_names[OUR]||'Our team';
+  const enemyName=g.team_names[enemyId]||'Opponent';
+  const ourSide=(g.team_sides||{})[OUR]||'blue';
+  const enemySide=ourSide==='blue'?'red':'blue';
+  const won=g.winning_team===OUR;
+  const patch=(g.game_version||'').split('.').slice(0,2).join('.');
+
+  const ourBans=(g.bans_ordered||[]).filter(b=>b.teamID===OUR);
+  const enemyBans=(g.bans_ordered||[]).filter(b=>b.teamID===enemyId);
+
+  // ── Full draft order: bans + picks interleaved by their real turn number ──
+  const orderActions=[];
+  (g.bans_ordered||[]).forEach(b=>orderActions.push({turn:b.pickTurn,type:'ban',champ:b.championName,teamID:b.teamID}));
+  (g.picks_ordered||[]).forEach(p=>orderActions.push({turn:p.globalPickTurn,type:'pick',champ:p.championName,teamID:p.teamID}));
+  orderActions.sort((a,b)=>a.turn-b.turn);
+  const orderStrip=orderActions.map(a=>{
+    const side=(g.team_sides||{})[a.teamID]||'blue';
+    const isBan=a.type==='ban';
+    return `<div class="oico-wrap" title="Turn ${a.turn} · ${isBan?'Ban':'Pick'} · ${a.champ}">
+      <img class="oico ${side}${isBan?' ban':''}" src="${imgSrc(a.champ)}" onerror="this.style.visibility='hidden'" alt="${a.champ}">
+      ${isBan?'<span class="oico-x">✕</span>':''}
+      <span class="oico-turn">${a.turn}</span>
+    </div>`;
+  }).join('');
+
+  function pickRole(p){
+    let rk=roleKey(p.role);
+    if(!rk){ const fromJson=ROLES_MAP[nick(p.playerName).toLowerCase()]; if(fromJson) rk=roleKey(fromJson); }
+    return rk;
+  }
+  const ourPicks=(g.picks?.[OUR]||[]).map(p=>({...p, rk:pickRole(p)}));
+  const enemyPicks=(g.picks?.[enemyId]||[]).map(p=>({...p, rk:pickRole(p)}));
+
+  const rows=ROLE_ORDER.map(rk=>{
+    const our=ourPicks.find(p=>p.rk===rk);
+    const en=enemyPicks.find(p=>p.rk===rk);
+    return `<div class="mup-row">
+      <span class="mup-role" style="color:var(--${rk})">${ROLE_LBL[rk]}</span>
+      <div class="mup-champ">${our?img(our.championName,26):''}<span class="mup-name">${our?our.championName:'—'}</span></div>
+      <span class="mup-vs">vs</span>
+      <div class="mup-champ right">${en?img(en.championName,26):''}<span class="mup-name">${en?en.championName:'—'}</span></div>
+      <span class="mup-role" style="color:var(--${rk})">${ROLE_LBL[rk]}</span>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="mcard">
+    <div class="mtop">
+      ${patch?`<span class="mpatch">${patch}</span>`:''}
+      <span class="mtitle" style="color:${ourSide==='blue'?'var(--blue)':'var(--red)'}">${ourName}</span>
+      <span class="mvs">VS</span>
+      <span class="mtitle" style="color:${enemySide==='blue'?'var(--blue)':'var(--red)'}">${enemyName}</span>
+      <span class="mdate">G${g.game_num||1}${g._series_label?' · '+g._series_label.replace(/_/g,' '):''}</span>
+    </div>
+    <div class="morder-row">${orderStrip}</div>
+    <div class="mban-row">
+      <span class="mban-lbl" style="color:${ourSide==='blue'?'var(--blue)':'var(--red)'}">BANS</span>
+      <div class="mban-side">${ourBans.map(b=>`<img class="ban-ico" src="${imgSrc(b.championName)}" onerror="this.style.display='none'" alt="${b.championName}">`).join('')}</div>
+      <div class="mban-side right">${enemyBans.map(b=>`<img class="ban-ico" src="${imgSrc(b.championName)}" onerror="this.style.display='none'" alt="${b.championName}">`).join('')}</div>
+      <span class="mban-lbl" style="text-align:right;color:${enemySide==='blue'?'var(--blue)':'var(--red)'}">BANS</span>
+    </div>
+    ${rows}
+    <div class="mresult ${won?'win':'loss'}">${won?'✓ VICTORY':'✗ DEFEAT'} — ${won?ourName:enemyName}</div>
+  </div>`;
+}
+
+let matchSearchQuery='';
+let _matchesLastState=null;
+
+function _sortedMatches(games){
+  return [...games].sort((a,b)=>{
+    const da=dateFromLabel(a._series_label)||'0000-00-00';
+    const db=dateFromLabel(b._series_label)||'0000-00-00';
+    if(da!==db) return da<db?-1:1;
+    return (a.game_num||0)-(b.game_num||0);
+  });
+}
+
+function renderMatchesList(){
+  if(!_matchesLastState)return;
+  const {st,games}=_matchesLastState;
+  const q=matchSearchQuery.trim().toLowerCase();
+  let sorted=_sortedMatches(games);
+  if(q){
+    sorted=sorted.filter(g=>{
+      const names=Object.values(g.team_names||{}).join(' ').toLowerCase();
+      const label=(g._series_label||'').toLowerCase();
+      return names.includes(q)||label.includes(q);
+    });
+  }
+  const wrap=document.getElementById('matchesList');
+  if(!wrap)return;
+  if(!sorted.length){
+    wrap.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No matches for that filter</p>';
+    return;
+  }
+  let html='';
+  for(let i=0;i<sorted.length;i+=2){
+    html+=`<div class="mrow">${buildMatchCard(sorted[i],st.OUR)}${sorted[i+1]?buildMatchCard(sorted[i+1],st.OUR):'<div></div>'}</div>`;
+  }
+  wrap.innerHTML=html;
+}
+
+function renderMatches(st, games){
+  const el=document.getElementById('pv-matches');
+  if(!games.length){ el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data for this filter</p>'; return; }
+  _matchesLastState={st,games};
+  el.innerHTML=`<div class="sec">MATCHES — OLDEST TO NEWEST</div>
+    <input type="text" class="msearch" id="matchSearch" placeholder="Filter by opponent name…" value="${matchSearchQuery.replace(/"/g,'&quot;')}">
+    <div id="matchesList"></div>`;
+  document.getElementById('matchSearch').addEventListener('input', function(){
+    matchSearchQuery=this.value;
+    renderMatchesList();
+  });
+  renderMatchesList();
+}
+
+let currentPlayer=null;
+
+function playerHistTable(rows){
+  if(!rows.length)return `<div class="nodata">—</div>`;
+  return `<table class="phist-tbl"><thead><tr><th>Match</th><th>Ally</th><th></th><th>Enemy</th><th>Result</th><th>BP</th></tr></thead><tbody>
+    ${rows.map(r=>`<tr>
+      <td style="color:var(--text2)">G${r.gameNum}${r.label?' · '+r.label:''}</td>
+      <td><div class="phist-champ">${img(r.champ,22)}${r.champ}</div></td>
+      <td style="text-align:center;color:var(--text2)">vs</td>
+      <td><div class="phist-champ">${r.enemyChamp?img(r.enemyChamp,22):''}${r.enemyChamp||'—'}</div></td>
+      <td>${wrSpanBool(r.won)}</td>
+      <td class="phist-bp ${r.blind===null?'u':r.blind?'y':'n'}">${r.blind===null?'—':r.blind?'✓':'✕'}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+function wrSpanBool(won){return won?'<span class="wrc w">WIN</span>':'<span class="wrc l">LOSS</span>';}
+
+function renderPlayers(st){
+  const el=document.getElementById('pv-players');
+  const {playerHistory,playerChampStats,playerRoles}=st;
+  const players=Object.keys(playerHistory).sort((a,b)=>{
+    const ra=roleSortIdx(playerRoles[a]), rb=roleSortIdx(playerRoles[b]);
+    if(ra!==rb)return ra-rb;
+    return a.localeCompare(b);
+  });
+  if(!players.length){el.innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data for this filter</p>';return;}
+  if(!currentPlayer || !players.includes(currentPlayer)) currentPlayer=players[0];
+
+  function roleSortIdx(rolesObj){
+    if(!rolesObj)return 99;
+    const top=Object.entries(rolesObj).sort((a,b)=>b[1]-a[1])[0]?.[0];
+    return ROLE_ORDER.indexOf(top);
+  }
+
+  const chips=players.map(p=>{
+    const rk=Object.entries(playerRoles[p]||{}).sort((a,b)=>b[1]-a[1])[0]?.[0];
+    return `<div class="pchip${p===currentPlayer?' active':''}" data-player="${p}" style="${p===currentPlayer&&rk?`border-color:var(--${rk});color:var(--${rk});background:rgba(255,255,255,.03)`:''}">${p}</div>`;
+  }).join('');
+
+  const hist=playerHistory[currentPlayer]||[];
+  const champStats=playerChampStats[currentPlayer]||{};
+  const totalGames=hist.length;
+  const poolSorted=Object.entries(champStats).sort((a,b)=>b[1].games-a[1].games);
+
+  const poolHtml=poolSorted.map(([c,s])=>{
+    const wr=pct(s.wins,s.games);
+    return `<div class="ppool-item">${img(c,20)}<span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text)">${c}</span>
+      <span style="color:var(--text2)">${s.games}×</span>
+      <span class="wrc ${wr>=50?'w':'l'}">${wr}%</span>
+      <span style="color:var(--text2)">${pct(s.games,totalGames)}% pick</span></div>`;
+  }).join('') || '<div class="nodata">—</div>';
+
+  const blueRows=hist.filter(r=>r.side==='blue');
+  const redRows=hist.filter(r=>r.side==='red');
+
+  el.innerHTML=`
+    <div class="sec">SELECT PLAYER</div>
+    <div class="pchips">${chips}</div>
+    <div class="sec">CHAMPION POOL</div>
+    <div class="ppool">${poolHtml}</div>
+    <div class="sec">GAMES — BLUE SIDE VS RED SIDE</div>
+    <div class="phist-two">
+      <div><div class="chdr b" style="margin-bottom:6px">BLUE SIDE (${blueRows.length})</div>${playerHistTable(blueRows)}</div>
+      <div><div class="chdr r" style="margin-bottom:6px">RED SIDE (${redRows.length})</div>${playerHistTable(redRows)}</div>
+    </div>
+  `;
+
+  document.querySelectorAll('.pchip').forEach(chip=>{
+    chip.addEventListener('click',()=>{
+      currentPlayer=chip.dataset.player;
+      renderPlayers(st);
+    });
+  });
+}
+
 function renderAll(){
   const games=filteredGames();
   if(!games.length){
-    ['overview','picks','bans','slots','presence','matchups'].forEach(p=>{
-      document.getElementById(`pv-${p}`).innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">Sin datos para este filtro</p>';
+    ['overview','picks','bans','slots','presence','matchups','matches','players'].forEach(p=>{
+      document.getElementById(`pv-${p}`).innerHTML='<p style="color:var(--text2);padding:20px;text-align:center">No data for this filter</p>';
     });
     return;
   }
@@ -696,6 +1009,8 @@ function renderAll(){
   renderSlots(st);
   renderPresence(st,games);
   renderMatchups(st);
+  renderMatches(st,games);
+  renderPlayers(st);
 }
 
 document.querySelectorAll('.nav-tab').forEach(t=>{
@@ -719,7 +1034,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
   await loadDD();
 
   try {
-    // 1. Intenta Flask
+    // 1. Try Flask
     const r = await fetch('http://localhost:5000/api/all_picks_bans');
     if (r.ok) {
       const apiData = await r.json();
@@ -735,9 +1050,9 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
         return;
       }
     }
-  } catch(e) { console.warn('API Flask no disponible:', e); }
+  } catch(e) { console.warn('Flask API unavailable:', e); }
 
-  // 2. Fallback: JSON estático (GitHub Pages)
+  // 2. Fallback: static JSON (GitHub Pages)
   if (!window.DATA) {
     try {
       const r = await fetch('./picks_bans_data.json');
@@ -753,16 +1068,16 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
         renderAll();
         return;
       }
-    } catch(e) { console.warn('JSON estático no disponible:', e); }
+    } catch(e) { console.warn('Static JSON unavailable:', e); }
   }
 
   document.querySelector('.content').innerHTML = `
     <div style="padding:40px;text-align:center;color:var(--text2)">
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;color:var(--gold);margin-bottom:10px">
-        Sin datos — descarga al menos una serie primero
+        No data — download at least one series first
       </div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:#3a5060">
-        El War Room lee automáticamente de todas las series descargadas
+        The War Room automatically reads from all downloaded series
       </div>
     </div>`;
 })();

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Game Stats — Series</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#c89b3c;--gold2:#f0d07a;--dark:#08090c;--panel:#0d1117;--panel2:#111820;--border:#1a2632;--border2:#243040;--text:#9ab0c0;--text2:#4a6070;--blue:#4fc3f7;--blue-dim:rgba(79,195,247,.10);--blue-bd:rgba(79,195,247,.28);--red:#ef5350;--red-dim:rgba(239,83,80,.10);--red-bd:rgba(239,83,80,.28);--green:#4caf50;--win:#4caf50;--win-bg:rgba(76,175,80,.1);}
+html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:var(--text);font-family:'Rajdhani',sans-serif;display:flex;flex-direction:column;}
+.hdr{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:6px 16px;border-bottom:1px solid var(--border);background:var(--panel);}
+.hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--gold2);}
+.tabs{display:flex;gap:4px;margin-left:auto;}.tab{padding:4px 13px;border-radius:3px;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text2);font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:all .15s;user-select:none;}.tab.active{border-color:var(--gold);background:rgba(200,155,60,.08);color:var(--gold);}
+.content{flex:1;min-height:0;overflow-y:auto;padding:10px 16px;display:flex;flex-direction:column;gap:10px;}.content::-webkit-scrollbar{width:4px}.content::-webkit-scrollbar-thumb{background:var(--border2)}
+.section{display:none}.section.active{display:flex;flex-direction:column;gap:10px;}
+.sec-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--text2);padding:3px 0;border-bottom:1px solid var(--border);}
+.gtable{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:4px;overflow:hidden;}
+.gtable th{font-family:'Barlow Condensed',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--text2);padding:6px 10px;border-bottom:1px solid var(--border);background:var(--panel2);text-align:left;}
+.gtable td{font-size:.8rem;padding:5px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}.gtable tr:last-child td{border-bottom:none;}
+.mono{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--gold2);}.mono.g{color:var(--green)}.mono.r{color:var(--red)}.mono.b{color:var(--blue)}.mono.dim{color:var(--text2);}
+.champ-cell{display:flex;align-items:center;gap:6px;}.cico{width:26px;height:26px;border-radius:50%;overflow:hidden;background:var(--panel2);border:1px solid var(--border2);flex-shrink:0;}.cico img{width:100%;height:100%;object-fit:cover;display:block;}.cname{font-family:'Barlow Condensed',sans-serif;font-size:.8rem;font-weight:700;color:var(--text);}
+.role-tag{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;padding:1px 6px;border-radius:2px;background:var(--panel2);color:var(--text2);border:1px solid var(--border2);}
+.side-b{background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue-bd);}.side-r{background:var(--red-dim);color:var(--red);border:1px solid var(--red-bd);}
+.win-badge{display:inline-flex;align-items:center;gap:4px;font-family:'Barlow Condensed',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;padding:2px 8px;border-radius:3px;background:var(--win-bg);color:var(--win);border:1px solid rgba(76,175,80,.3);}
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px;}
+.obj-card{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:6px 10px;display:flex;flex-direction:column;gap:2px;}
+.obj-pct{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:800;color:var(--gold2);line-height:1;}
+.obj-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.56rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text2);}
+.obj-bar{height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;}.obj-fill{height:100%;border-radius:2px;background:var(--gold);}
+</style></head><body>
+<div class="hdr"><span class="hdr-title">📊 GAME STATS</span><div class="tabs" id="tabs"></div></div>
+<div class="content" id="content"></div>
+<script>
+window.__GS__ = {"our_name": "ZYB", "games": [{"game_num": 1, "team_id": 200, "rival_id": 100, "our_side": "red", "rival_side": "blue", "our_name": "ZYB", "rival_name": "KCB", "our_win": false, "our_roster": [{"participantID": 6, "playerName": "ZYB Adam", "championName": "Renekton", "role": "top", "stats": {"kills": 3, "deaths": 5, "assists": 5, "gold": 12832, "cs": 290}}, {"participantID": 7, "playerName": "ZYB Manaty", "championName": "XinZhao", "role": "jungle", "stats": {"kills": 0, "deaths": 10, "assists": 3, "gold": 9617, "cs": 166.54998779296875}}, {"participantID": 8, "playerName": "ZYB SAKEN", "championName": "Ryze", "role": "middle", "stats": {"kills": 5, "deaths": 6, "assists": 6, "gold": 13223, "cs": 290.39999771118164}}, {"participantID": 9, "playerName": "ZYB Jezu", "championName": "Vayne", "role": "bottom", "stats": {"kills": 6, "deaths": 3, "assists": 5, "gold": 16224, "cs": 326.80000019073486}}, {"participantID": 10, "playerName": "ZYB RIIPPP", "championName": "Rell", "role": "support", "stats": {"kills": 1, "deaths": 7, "assists": 9, "gold": 8574, "cs": 26}}], "rival_roster": [{"participantID": 1, "playerName": "KCB Tao", "championName": "Ambessa", "role": "top", "stats": {"kills": 2, "deaths": 2, "assists": 10, "gold": 11983, "cs": 240}}, {"participantID": 2, "playerName": "KCB Yukino", "championName": "Nocturne", "role": "jungle", "stats": {"kills": 8, "deaths": 3, "assists": 14, "gold": 15997, "cs": 253.99993896484375}}, {"participantID": 3, "playerName": "KCB Kamiloo", "championName": "Locke", "role": "middle", "stats": {"kills": 17, "deaths": 4, "assists": 6, "gold": 16389, "cs": 241.75}}, {"participantID": 4, "playerName": "KCB Looki", "championName": "Taliyah", "role": "bottom", "stats": {"kills": 1, "deaths": 2, "assists": 13, "gold": 13473, "cs": 287.04999923706055}}, {"participantID": 5, "playerName": "KCB Prime", "championName": "Shen", "role": "support", "stats": {"kills": 3, "deaths": 4, "assists": 16, "gold": 10596, "cs": 38}}], "our_obj": {"firstBlood": null, "firstTower": "16:12", "towers": 3, "dragons": [{"num": 1, "time_str": "06:25", "teamID": 200}, {"num": 2, "time_str": "13:28", "teamID": 100}, {"num": 3, "time_str": "19:00", "teamID": 100}, {"num": 4, "time_str": "24:14", "teamID": 100}, {"num": 5, "time_str": "29:44", "teamID": 100}], "firstHerald": null, "voidgrubs": 0, "firstVoidgrub": null, "baron": 0, "firstBaron": null, "plate_gold": 6400, "firstScuttler": 100, "firstScuttlerOurs": false}, "rival_obj": {"firstBlood": "02:47", "firstTower": "15:13", "towers": 10, "dragons": [{"num": 1, "time_str": "06:25", "teamID": 200}, {"num": 2, "time_str": "13:28", "teamID": 100}, {"num": 3, "time_str": "19:00", "teamID": 100}, {"num": 4, "time_str": "24:14", "teamID": 100}, {"num": 5, "time_str": "29:44", "teamID": 100}], "firstHerald": "16:43", "voidgrubs": 3, "firstVoidgrub": "08:28", "baron": 2, "firstBaron": "21:51", "plate_gold": 2720, "firstScuttler": 100, "firstScuttlerOurs": true}, "duration": "32:26", "setup": [{"name": "Dragon", "type": "dragon", "killer_team": 200, "spawn_str": "04:53", "kill_str": "06:25", "setup_s": 92, "ours": true}, {"name": "Voidgrub", "type": "voidgrub", "killer_team": 100, "spawn_str": "08:00", "kill_str": "08:28", "setup_s": 29, "ours": false}, {"name": "Dragon", "type": "dragon", "killer_team": 100, "spawn_str": "11:19", "kill_str": "13:28", "setup_s": 130, "ours": false}, {"name": "Rift Herald", "type": "riftherald", "killer_team": 100, "spawn_str": "15:00", "kill_str": "16:43", "setup_s": 104, "ours": false}, {"name": "Dragon", "type": "dragon", "killer_team": 100, "spawn_str": "18:22", "kill_str": "19:00", "setup_s": 38, "ours": false}, {"name": "Baron Nashor", "type": "baron", "killer_team": 100, "spawn_str": "20:00", "kill_str": "21:51", "setup_s": 112, "ours": false}, {"name": "Dragon", "type": "dragon", "killer_team": 100, "spawn_str": "23:53", "kill_str": "24:14", "setup_s": 21, "ours": false}, {"name": "Dragon", "type": "dragon", "killer_team": 100, "spawn_str": "29:08", "kill_str": "29:44", "setup_s": 36, "ours": false}, {"name": "Baron Nashor", "type": "baron", "killer_team": 100, "spawn_str": "27:51", "kill_str": "30:43", "setup_s": 172, "ours": false}], "grid_team": {"our": {"grid_team_id": "56432", "name": "ZYB", "won": false, "money_diff": -7970, "money_per_min": 1831, "dmg_per_min": 25240, "vision_score": 294.9, "vs_per_min": 8.94, "wards_killed": 40, "net_worth": 55753, "structures": 3, "firsts": {"firstPlate": true, "firstDragon": true, "firstDragon_count": 1, "firstScuttlerBot": false, "firstScuttlerBot_count": 1, "firstScuttlerTop": false, "firstScuttlerTop_count": 1, "firstTower": false, "firstTower_count": 3}, "plates_by_lane": {"top": 5, "mid": 5, "bot": 7}, "dragon_types": [{"type": "hextech", "count": 1, "first": true}], "avg_fwd": 18.0}, "rival": {"grid_team_id": "48007", "name": "Karmine Corp Blue", "won": true, "money_diff": 7970, "money_per_min": 2073, "dmg_per_min": 28667, "vision_score": 335.6, "vs_per_min": 10.17, "wards_killed": 58, "net_worth": 63143, "structures": 13, "firsts": {"firstScuttlerTop": true, "firstScuttlerTop_count": 4, "firstPlate": true, "firstScuttlerBot": true, "firstScuttlerBot_count": 4, "firstVoidgrub": true, "firstVoidgrub_count": 3, "firstDragon": false, "firstDragon_count": 4, "firstTower": true, "firstTower_count": 10, "firstHerald": true, "firstHerald_count": 1, "firstBaron": true, "firstBaron_count": 2}, "plates_by_lane": {"top": 15, "mid": 15, "bot": 10}, "dragon_types": [{"type": "ocean", "count": 1, "first": true}, {"type": "mountain", "count": 3, "first": true}], "avg_fwd": 46.8}}, "grid_firsts": [{"key": "firstTower", "label": "First Tower", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": "ok"}, {"key": "firstDragon", "label": "First Dragon", "side": "red", "team": "ZYB", "ours": true, "check": "ok"}, {"key": "firstHerald", "label": "First Herald", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": "ok"}, {"key": "firstBaron", "label": "First Baron", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": "ok"}, {"key": "firstVoidgrub", "label": "First Voidgrub", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": "ok"}, {"key": "firstScuttlerTop", "label": "First Scuttler TOP", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": ""}, {"key": "firstScuttlerBot", "label": "First Scuttler BOT", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": ""}, {"key": "firstPlate", "label": "First Plate", "side": "blue", "team": "Karmine Corp Blue", "ours": false, "check": "ok"}]}], "series_obj": {"firstBlood": {"wins": 0, "total": 1, "pct": 0}, "firstTower": {"wins": 1, "total": 1, "pct": 100}, "firstHerald": {"wins": 0, "total": 1, "pct": 0}, "firstVoidgrub": {"wins": 0, "total": 1, "pct": 0}, "firstBaron": {"wins": 0, "total": 1, "pct": 0}, "firstScuttler": {"wins": 0, "total": 1, "pct": 0}, "plate_gold_avg": 6400, "dragon1": {"wins": 1, "total": 1, "pct": 100}, "dragon2": {"wins": 0, "total": 1, "pct": 0}, "voidgrubs": {"wins": 0, "total": 1, "pct": 0}, "wins": {"wins": 0, "total": 1, "pct": 0}}, "series_roster": [{"playerName": "ZYB Adam", "role": "top", "games": 1, "champions": ["Renekton"], "avg_kills": 3.0, "avg_deaths": 5.0, "avg_assists": 5.0, "avg_gold": 12832, "avg_cs": 290.0, "avg_kp_pct": 0.0}, {"playerName": "ZYB Manaty", "role": "jungle", "games": 1, "champions": ["XinZhao"], "avg_kills": 0.0, "avg_deaths": 10.0, "avg_assists": 3.0, "avg_gold": 9617, "avg_cs": 166.5, "avg_kp_pct": 0.0}, {"playerName": "ZYB SAKEN", "role": "middle", "games": 1, "champions": ["Ryze"], "avg_kills": 5.0, "avg_deaths": 6.0, "avg_assists": 6.0, "avg_gold": 13223, "avg_cs": 290.4, "avg_kp_pct": 0.0}, {"playerName": "ZYB Jezu", "role": "bottom", "games": 1, "champions": ["Vayne"], "avg_kills": 6.0, "avg_deaths": 3.0, "avg_assists": 5.0, "avg_gold": 16224, "avg_cs": 326.8, "avg_kp_pct": 0.0}, {"playerName": "ZYB RIIPPP", "role": "support", "games": 1, "champions": ["Rell"], "avg_kills": 1.0, "avg_deaths": 7.0, "avg_assists": 9.0, "avg_gold": 8574, "avg_cs": 26.0, "avg_kp_pct": 0.0}], "lane_diff_summary": {}, "setup_avg": {"our": {"dragon": 92}, "rival": {"voidgrub": 29, "dragon": 56, "riftherald": 104, "baron": 142}}};
+const DATA=window.__GS__;let DD='';const CK={};
+async function loadDD(){try{const v=await(await fetch('https://ddragon.leagueoflegends.com/api/versions.json')).json();DD=`https://ddragon.leagueoflegends.com/cdn/${v[0]}/img/champion/`;const d=await(await fetch(`https://ddragon.leagueoflegends.com/cdn/${v[0]}/data/en_US/champion.json`)).json();Object.entries(d.data).forEach(([k,v])=>CK[v.name]=k);document.querySelectorAll('img[data-champ]').forEach(img=>{const n=img.dataset.champ;img.src=`${DD}${CK[n]||n.replace(/[' .]/g,'')}.png`;img.onerror=()=>img.style.display='none';})}catch(e){}}
+function cico(name){return`<div class="cico"><img data-champ="${name||''}" alt="${name||''}"></div>`;}
+function sideTag(side){return`<span class="role-tag side-${side==='blue'?'b':'r'}">${side?.toUpperCase()||'?'}</span>`;}
+function rTag(role){const M={top:'TOP',jungle:'JGL',mid:'MID',middle:'MID',bottom:'ADC',adc:'ADC',support:'SUP'};return`<span class="role-tag">${M[role]||'?'}</span>`;}
+function kda(k,d,a){return`<span class="mono g">${k}</span>/<span class="mono r">${d}</span>/<span class="mono b">${a}</span>`;}
+function renderSeries(){
+  const sec=document.getElementById('sec-series');if(!sec)return;
+  const sr=DATA.series_obj||{};
+  const OBJ={firstBlood:'First Blood',firstTower:'First Tower',firstHerald:'First Herald',firstVoidgrub:'First Grub',firstBaron:'First Baron',dragon1:'Dragon 1',dragon2:'Dragon 2',voidgrubs:'Any Grub',wins:'WINS'};
+  sec.innerHTML=`<div class="sec-lbl">SERIES — ${DATA.our_name||'Team'} · ${DATA.games?.length||0} games</div>
+  <div class="obj-grid">${Object.entries(OBJ).map(([key,lbl])=>{const d=sr[key]||{wins:0,total:0,pct:0};const col=key==='wins'?'var(--green)':key.startsWith('first')?'var(--gold)':'var(--blue)';return`<div class="obj-card"><span class="obj-pct" style="color:${col}">${d.pct}%</span><span class="obj-lbl">${lbl}</span><div style="font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--text2)">${d.wins}/${d.total}</div><div class="obj-bar"><div class="obj-fill" style="width:${d.pct}%;background:${col}"></div></div></div>`;}).join('')}</div>
+  <div class="sec-lbl" style="margin-top:4px">ROSTER — MEDIAS POR GAME</div>
+  <table class="gtable"><thead><tr><th>PLAYER</th><th>ROLE</th><th>CHAMPS</th><th>K</th><th>D</th><th>A</th><th>KDA</th><th>GOLD</th><th>CS</th></tr></thead><tbody>${(DATA.series_roster||[]).map(p=>`<tr><td><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--gold2)">${p.playerName}</span></td><td>${rTag(p.role)}</td><td><span class="mono dim">${(p.champions||[]).join(', ')}</span></td><td><span class="mono g">${p.avg_kills}</span></td><td><span class="mono r">${p.avg_deaths}</span></td><td><span class="mono b">${p.avg_assists}</span></td><td>${p.avg_deaths>0?((p.avg_kills+p.avg_assists)/p.avg_deaths).toFixed(1):'∞'}</td><td><span class="mono">${(p.avg_gold/1000).toFixed(1)}k</span></td><td><span class="mono">${p.avg_cs}</span></td></tr>`).join('')}</tbody></table>`;
+}
+function renderGame(gi){
+  const sec=document.getElementById(`sec-g${gi}`);if(!sec)return;const g=DATA.games[gi];if(!g)return;
+  function rosterTable(roster,side){return`<table class="gtable"><thead><tr><th>CHAMPION</th><th>PLAYER</th><th>ROLE</th><th>K/D/A</th><th>GOLD</th><th>CS</th></tr></thead><tbody>${roster.map(p=>`<tr><td><div class="champ-cell">${cico(p.championName)}<span class="cname">${p.championName}</span></div></td><td><span style="font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--text2)">${p.playerName}</span></td><td>${rTag(p.role)}</td><td>${kda(p.stats?.kills||0,p.stats?.deaths||0,p.stats?.assists||0)}</td><td><span class="mono">${((p.stats?.gold||0)/1000).toFixed(1)}k</span></td><td><span class="mono">${p.stats?.cs||0}</span></td></tr>`).join('')}</tbody></table>`;}
+  const winBadge=g.our_win?'<span class="win-badge">🏆 WIN</span>':'<span style="color:var(--text2);font-family:\'Barlow Condensed\',sans-serif;font-size:.72rem">LOSS</span>';
+  sec.innerHTML=`<div style="display:flex;align-items:center;gap:10px;"><span style="font-family:'Barlow Condensed',sans-serif;font-size:.9rem;font-weight:700;color:var(--gold)">${g.our_name||'Our team'}</span>${sideTag(g.our_side)} ${winBadge}<span style="margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--text2)">⏱ ${g.duration||'?'}</span></div>
+  <div class="sec-lbl">OUR TEAM</div>${rosterTable(g.our_roster||[],g.our_side)}
+  <div class="sec-lbl" style="margin-top:4px">RIVAL — ${g.rival_name||'Rival'} ${sideTag(g.rival_side)}</div>${rosterTable(g.rival_roster||[],g.rival_side)}
+  <div class="sec-lbl" style="margin-top:4px">OBJECTIVES</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;color:var(--${g.our_side==='blue'?'blue':'red'});margin-bottom:4px;letter-spacing:2px;text-transform:uppercase">Ours</div>${['firstBlood','firstTower','firstHerald','firstVoidgrub','firstBaron'].map(k=>`<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:.72rem;"><span style="flex:1;color:var(--text)">${k.replace('first','')}</span><span class="mono ${g.our_obj[k]?'g':'dim'}">${g.our_obj[k]||'—'}</span></div>`).join('')}<div style="margin-top:4px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text2)">Towers: ${g.our_obj.towers||0} · Baron: ${g.our_obj.baron||0}</div></div>
+    <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:.65rem;color:var(--${g.rival_side==='blue'?'blue':'red'});margin-bottom:4px;letter-spacing:2px;text-transform:uppercase">Rival</div>${['firstBlood','firstTower','firstHerald','firstVoidgrub','firstBaron'].map(k=>`<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border);font-family:'Barlow Condensed',sans-serif;font-size:.72rem;"><span style="flex:1;color:var(--text)">${k.replace('first','')}</span><span class="mono ${g.rival_obj[k]?'r':'dim'}">${g.rival_obj[k]||'—'}</span></div>`).join('')}<div style="margin-top:4px;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--text2)">Towers: ${g.rival_obj.towers||0} · Baron: ${g.rival_obj.baron||0}</div></div>
+  </div>`;
+}
+(async()=>{
+  document.body.style.visibility='hidden';
+  await loadDD();
+  const tabs=document.getElementById('tabs'),content=document.getElementById('content');
+  const st=document.createElement('div');st.className='tab active';st.textContent='SERIES';st.onclick=()=>activate('series');tabs.appendChild(st);
+  const ss=document.createElement('div');ss.className='section active';ss.id='sec-series';content.appendChild(ss);
+  (DATA.games||[]).forEach((g,gi)=>{
+    const t=document.createElement('div');t.className='tab';t.textContent=`G${g.game_num}`;t.onclick=()=>activate(`g${gi}`);tabs.appendChild(t);
+    const s=document.createElement('div');s.className='section';s.id=`sec-g${gi}`;content.appendChild(s);
+  });
+  renderSeries();(DATA.games||[]).forEach((_,gi)=>renderGame(gi));
+  await loadDD();
+  document.body.style.visibility='visible';
+  function activate(id){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    const sec=document.getElementById(`sec-${id}`);if(sec)sec.classList.add('active');
+    const allTabs=document.querySelectorAll('.tab');
+    if(id==='series')allTabs[0].classList.add('active');
+    else{const gi=parseInt(id.replace('g',''));if(allTabs[gi+1])allTabs[gi+1].classList.add('active');}
+  }
+})();
+
+// ── scouting extra: setup de objetivos + firsts + stats grid ──
+(function(){
+  function fmtS(s){const m=Math.floor(s/60),r=s%60;return m?m+'m '+String(r).padStart(2,'0')+'s':r+'s';}
+  const SL={dragon:'Dragón',riftherald:'Heraldo',baron:'Barón',voidgrub:'Voidgrubs (1º oleada)'};
+  const secS=document.getElementById('sec-series');
+  const sa=DATA.setup_avg||{};
+  if(secS&&(Object.keys(sa.our||{}).length||Object.keys(sa.rival||{}).length)){
+    let rows='';
+    for(const k of ['dragon','riftherald','baron','voidgrub']){
+      const o=(sa.our||{})[k],r=(sa.rival||{})[k];
+      if(o==null&&r==null)continue;
+      const oc=(o!=null&&r!=null&&o<=r)?'g':'',rc=(o!=null&&r!=null&&r<o)?'g':'';
+      rows+='<tr><td>'+(SL[k]||k)+'</td><td><span class="mono '+oc+'">'+(o!=null?fmtS(o):'—')+'</span></td><td><span class="mono '+rc+'">'+(r!=null?fmtS(r):'—')+'</span></td></tr>';
+    }
+    const d=document.createElement('div');
+    d.innerHTML='<div class="sec-lbl" style="margin-top:4px">SETUP DE OBJETIVOS — media spawn → kill (verde = más rápido)</div><table class="gtable"><thead><tr><th>OBJETIVO</th><th>NOSOTROS</th><th>RIVAL</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    secS.appendChild(d);
+  }
+  (DATA.games||[]).forEach(function(g,gi){
+    const s=document.getElementById('sec-g'+gi); if(!s)return;
+    if(g.grid_firsts&&g.grid_firsts.length){
+      const rows=g.grid_firsts.map(function(x){
+        return '<tr><td>'+x.label+'</td><td><span class="mono '+(x.ours?'b':'r')+'">'+x.team+'</span>'+(x.check==='MISMATCH'?' <span class="mono r">✗ MISMATCH JSONL</span>':'')+'</td></tr>';}).join('');
+      const d=document.createElement('div');
+      d.innerHTML='<div class="sec-lbl" style="margin-top:4px">FIRSTS (GRID)</div><table class="gtable"><tbody>'+rows+'</tbody></table>';
+      s.appendChild(d);
+    }
+    if(g.setup&&g.setup.length){
+      const rows=g.setup.map(function(x){
+        return '<tr><td>'+x.name+'</td><td><span class="mono '+(x.ours?'b':'r')+'">'+(x.ours?'NOSOTROS':'RIVAL')+'</span></td><td><span class="mono dim">'+x.spawn_str+'</span></td><td><span class="mono">'+x.kill_str+'</span></td><td><span class="mono '+(x.setup_s<=90?'g':'')+'">'+fmtS(x.setup_s)+'</span></td></tr>';}).join('');
+      const d=document.createElement('div');
+      d.innerHTML='<div class="sec-lbl" style="margin-top:4px">SETUP DE OBJETIVOS (spawn → kill)</div><table class="gtable"><thead><tr><th>OBJETIVO</th><th>EQUIPO</th><th>SPAWN</th><th>KILL</th><th>SETUP</th></tr></thead><tbody>'+rows+'</tbody></table>';
+      s.appendChild(d);
+    }
+    const gt=g.grid_team;
+    if(gt&&gt.our){
+      function row(l,f){return '<tr><td>'+l+'</td><td><span class="mono">'+f(gt.our)+'</span></td><td><span class="mono">'+(gt.rival?f(gt.rival):'—')+'</span></td></tr>';}
+      const d=document.createElement('div');
+      d.innerHTML='<div class="sec-lbl" style="margin-top:4px">GRID — EQUIPO</div><table class="gtable"><thead><tr><th></th><th>NOSOTROS</th><th>RIVAL</th></tr></thead><tbody>'
+        +row('Gold diff final',function(x){return (x.money_diff>0?'+':'')+x.money_diff.toLocaleString();})
+        +row('Vision score',function(x){return x.vision_score+' ('+x.vs_per_min+'/min)';})
+        +row('Wards matados',function(x){return x.wards_killed;})
+        +row('Plates top/mid/bot',function(x){return x.plates_by_lane.top+'/'+x.plates_by_lane.mid+'/'+x.plates_by_lane.bot;})
+        +row('FWD% medio equipo',function(x){return x.avg_fwd!=null?x.avg_fwd+'%':'—';})
+        +'</tbody></table>';
+      s.appendChild(d);
+    }
+  });
+})();
+
+</script></body></html>

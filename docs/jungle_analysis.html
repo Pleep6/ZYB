@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Jungle Analysis</title>
@@ -88,28 +88,28 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 <body>
 <div class="hdr">
   <span class="hdr-title">🌲 JUNGLE ANALYSIS</span>
-  <span class="hdr-meta" id="hdrMeta">cargando...</span>
+  <span class="hdr-meta" id="hdrMeta">loading...</span>
   <div class="side-tabs">
-    <div class="side-tab all active" id="stAll">TODOS</div>
+    <div class="side-tab all active" id="stAll">ALL</div>
     <div class="side-tab blue" id="stBlue">🔵 BLUE</div>
     <div class="side-tab red" id="stRed">🔴 RED</div>
   </div>
 </div>
 <div class="nav">
-  <div class="nav-tab active" data-p="resumen">RESUMEN</div>
+  <div class="nav-tab active" data-p="overview">OVERVIEW</div>
   <div class="nav-tab" data-p="first_clear">FIRST CLEAR</div>
-  <div class="nav-tab" data-p="rutas">RUTAS</div>
-  <div class="nav-tab" data-p="gank">PRIMER GANK</div>
-  <div class="nav-tab" data-p="objetivos">OBJETIVOS</div>
-  <div class="nav-tab" data-p="partidas">PARTIDAS</div>
+  <div class="nav-tab" data-p="routes">ROUTES</div>
+  <div class="nav-tab" data-p="gank">FIRST GANK</div>
+  <div class="nav-tab" data-p="objectives">OBJECTIVES</div>
+  <div class="nav-tab" data-p="games">GAMES</div>
 </div>
 <div class="content">
-  <div class="pv active" id="pv-resumen"></div>
+  <div class="pv active" id="pv-overview"></div>
   <div class="pv" id="pv-first_clear"></div>
-  <div class="pv" id="pv-rutas"></div>
+  <div class="pv" id="pv-routes"></div>
   <div class="pv" id="pv-gank"></div>
-  <div class="pv" id="pv-objetivos"></div>
-  <div class="pv" id="pv-partidas"></div>
+  <div class="pv" id="pv-objectives"></div>
+  <div class="pv" id="pv-games"></div>
 </div>
 
 <script>
@@ -183,9 +183,9 @@ function filtered(){
   return g.filter(g=>g.side===currentSide);
 }
 
-// ─── RESUMEN ──────────────────────────────────────────────────────────────────
-function renderResumen(games){
-  const el=document.getElementById('pv-resumen');
+// ─── OVERVIEW ─────────────────────────────────────────────────────────────────
+function renderOverview(games){
+  const el=document.getElementById('pv-overview');
   if(!games.length){el.innerHTML=empty();return;}
   const n=games.length;
   const blueN=games.filter(g=>g.side==='blue').length;
@@ -203,7 +203,7 @@ function renderResumen(games){
   const maxRF=topR[0]?.[1]||1;
 
   el.innerHTML=`
-    <div class="sec">ESTADÍSTICAS GENERALES</div>
+    <div class="sec">OVERALL STATS</div>
     <div class="cards">
       <div class="card jgl"><span class="cv jg">${n}</span><span class="cl">Games</span></div>
       <div class="card blue"><span class="cv b">${blueN}</span><span class="cl">Blue Side</span></div>
@@ -215,7 +215,7 @@ function renderResumen(games){
       <div class="card"><span class="cv p">${mmss(avgScut)||'—'}</span><span class="cl">Avg Scuttler</span></div>
     </div>
     ${topC.length?`
-    <div class="sec" style="margin-top:6px">CAMPEONES JUGADOS</div>
+    <div class="sec" style="margin-top:6px">CHAMPIONS PLAYED</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">${topC.map(([c,n2])=>`
       <div style="display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:7px 12px;min-width:130px">
         ${cico(c,38)}
@@ -223,7 +223,7 @@ function renderResumen(games){
       </div>`).join('')}
     </div>`:''}
     ${topR.length?`
-    <div class="sec" style="margin-top:6px">RUTAS MÁS FRECUENTES</div>
+    <div class="sec" style="margin-top:6px">MOST FREQUENT ROUTES</div>
     <div style="background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:8px 12px">
       ${topR.map(([r2,n2])=>`
         <div class="rf-row">
@@ -240,9 +240,9 @@ function renderFirstClear(games){
   const el=document.getElementById('pv-first_clear');
   if(!games.length){el.innerHTML=empty();return;}
   el.innerHTML=`
-    <div class="sec">FIRST CLEAR POR PARTIDA</div>
+    <div class="sec">FIRST CLEAR PER GAME</div>
     <table class="stbl"><thead><tr>
-      <th>G</th><th>SIDE</th><th>CAMPEÓN</th><th>INICIO</th><th>RUTA</th><th>BACK</th><th>CLEAR</th><th>CAMPS</th><th>SERIE</th>
+      <th>G</th><th>SIDE</th><th>CHAMPION</th><th>START</th><th>ROUTE</th><th>BACK</th><th>CLEAR</th><th>CAMPS</th><th>SERIES</th>
     </tr></thead><tbody>
     ${games.map(g=>{
       const fc=g.first_clear||{};
@@ -263,9 +263,9 @@ function renderFirstClear(games){
     </tbody></table>`;
 }
 
-// ─── RUTAS ────────────────────────────────────────────────────────────────────
-function renderRutas(games){
-  const el=document.getElementById('pv-rutas');
+// ─── ROUTES ────────────────────────────────────────────────────────────────────
+function renderRoutes(games){
+  const el=document.getElementById('pv-routes');
   if(!games.length){el.innerHTML=empty();return;}
   const blueG=games.filter(g=>g.first_clear?.start_side==='blue_start');
   const redG=games.filter(g=>g.first_clear?.start_side==='red_start');
@@ -288,19 +288,19 @@ function renderRutas(games){
     </div>`;
   }
   el.innerHTML=`
-    <div class="sec">DISTRIBUCIÓN DE INICIO</div>
+    <div class="sec">START DISTRIBUTION</div>
     <div class="cards">
       <div class="card blue"><span class="cv b">${blueG.length}</span><span class="cl">Blue Start</span></div>
       <div class="card red"><span class="cv" style="color:var(--red)">${redG.length}</span><span class="cl">Red Start</span></div>
       <div class="card jgl"><span class="cv jg">${games.filter(g=>g.first_clear?.full_clear).length}</span><span class="cl">Full Clear</span></div>
     </div>
-    <div class="sec" style="margin-top:6px">RUTAS POR LADO DE INICIO</div>
+    <div class="sec" style="margin-top:6px">ROUTES BY START SIDE</div>
     ${grp('🔵 BLUE START',blueG,'var(--blue)')}
     ${grp('🔴 RED START',redG,'var(--red)')}
-    ${!blueG.length&&!redG.length?'<div style="color:var(--text2);font-family:\'Share Tech Mono\',monospace;font-size:.72rem;padding:12px">Sin datos de inicio disponibles</div>':''}`;
+    ${!blueG.length&&!redG.length?'<div style="color:var(--text2);font-family:\'Share Tech Mono\',monospace;font-size:.72rem;padding:12px">No start data available</div>':''}`;
 }
 
-// ─── PRIMER GANK ──────────────────────────────────────────────────────────────
+// ─── FIRST GANK ───────────────────────────────────────────────────────────────
 function renderGank(games){
   const el=document.getElementById('pv-gank');
   if(!games.length){el.innerHTML=empty();return;}
@@ -309,15 +309,15 @@ function renderGank(games){
   const avg=ts.length?Math.round(ts.reduce((a,b)=>a+b,0)/ts.length):0;
   const early=gG.filter(g=>(g.first_gank.time_ms||0)<5*60*1000).length;
   el.innerHTML=`
-    <div class="sec">RESUMEN DE PRIMER GANK</div>
+    <div class="sec">FIRST GANK SUMMARY</div>
     <div class="cards">
       <div class="card"><span class="cv o">${mmss(avg)||'—'}</span><span class="cl">Avg Tiempo</span></div>
-      <div class="card jgl"><span class="cv jg">${gG.length}</span><span class="cl">Con Gank</span></div>
-      <div class="card red"><span class="cv" style="color:var(--red)">${games.length-gG.length}</span><span class="cl">Sin Gank</span></div>
-      <div class="card blue"><span class="cv b">${early}</span><span class="cl">Antes de 5:00</span></div>
+      <div class="card jgl"><span class="cv jg">${gG.length}</span><span class="cl">With Gank</span></div>
+      <div class="card red"><span class="cv" style="color:var(--red)">${games.length-gG.length}</span><span class="cl">No Gank</span></div>
+      <div class="card blue"><span class="cv b">${early}</span><span class="cl">Before 5:00</span></div>
     </div>
-    <div class="sec" style="margin-top:6px">PRIMER GANK POR PARTIDA</div>
-    <table class="stbl"><thead><tr><th>G</th><th>SIDE</th><th>CAMPEÓN</th><th>TIEMPO</th><th>TIPO</th><th>SERIE</th></tr></thead>
+    <div class="sec" style="margin-top:6px">FIRST GANK PER GAME</div>
+    <table class="stbl"><thead><tr><th>G</th><th>SIDE</th><th>CHAMPION</th><th>TIME</th><th>TYPE</th><th>SERIES</th></tr></thead>
     <tbody>${games.map(g=>{
       const side=g.side||'blue';
       const fg=g.first_gank;
@@ -332,9 +332,9 @@ function renderGank(games){
     }).join('')}</tbody></table>`;
 }
 
-// ─── OBJETIVOS ────────────────────────────────────────────────────────────────
-function renderObjetivos(games){
-  const el=document.getElementById('pv-objetivos');
+// ─── OBJECTIVES ────────────────────────────────────────────────────────────────
+function renderObjectives(games){
+  const el=document.getElementById('pv-objectives');
   if(!games.length){el.innerHTML=empty();return;}
   const fsG=games.filter(g=>g.first_scuttler);
   const sTs=fsG.map(g=>g.first_scuttler.time_ms).filter(Boolean);
@@ -342,14 +342,14 @@ function renderObjetivos(games){
   const epics={};
   games.filter(g=>g.first_epic).forEach(g=>{const t=g.first_epic.type||'?';epics[t]=(epics[t]||0)+1;});
   el.innerHTML=`
-    <div class="sec">OBJETIVOS ÉPICOS Y SCUTTLER</div>
+    <div class="sec">EPIC OBJECTIVES & SCUTTLER</div>
     <div class="cards">
       <div class="card"><span class="cv p">${mmss(avgScut)||'—'}</span><span class="cl">Avg Scuttler</span></div>
       <div class="card jgl"><span class="cv jg">${fsG.length}</span><span class="cl">Scuttler</span></div>
       ${Object.entries(epics).map(([t,n2])=>`<div class="card"><span class="cv o">${n2}</span><span class="cl">${t}</span></div>`).join('')}
     </div>
-    <div class="sec" style="margin-top:6px">POR PARTIDA</div>
-    <table class="stbl"><thead><tr><th>G</th><th>SIDE</th><th>CAMPEÓN</th><th>SCUTTLER</th><th>PRIMER ÉPICO</th><th>CAMPS</th><th>K</th><th>A</th></tr></thead>
+    <div class="sec" style="margin-top:6px">PER GAME</div>
+    <table class="stbl"><thead><tr><th>G</th><th>SIDE</th><th>CHAMPION</th><th>SCUTTLER</th><th>FIRST EPIC</th><th>CAMPS</th><th>K</th><th>A</th></tr></thead>
     <tbody>${games.map(g=>{
       const side=g.side||'blue';
       const os=g.objectives_summary||{};
@@ -366,12 +366,12 @@ function renderObjetivos(games){
     }).join('')}</tbody></table>`;
 }
 
-// ─── PARTIDAS ─────────────────────────────────────────────────────────────────
-function renderPartidas(games){
-  const el=document.getElementById('pv-partidas');
+// ─── GAMES ─────────────────────────────────────────────────────────────────────
+function renderGames(games){
+  const el=document.getElementById('pv-games');
   if(!games.length){el.innerHTML=empty();return;}
   const bySeries={};
-  games.forEach(g=>{const lbl=g.series_label||'Sin etiqueta';if(!bySeries[lbl])bySeries[lbl]=[];bySeries[lbl].push(g);});
+  games.forEach(g=>{const lbl=g.series_label||'No label';if(!bySeries[lbl])bySeries[lbl]=[];bySeries[lbl].push(g);});
   el.innerHTML=Object.entries(bySeries).map(([lbl,sg])=>`
     <div class="game-block">
       <div class="game-block-hdr" style="color:var(--jungle)">${lbl}</div>
@@ -391,11 +391,11 @@ function renderPartidas(games){
     </div>`).join('');
 }
 
-function empty(){return `<div class="empty"><div class="empty-title">Sin datos para este filtro</div><div class="empty-sub">Prueba con TODOS en vez de BLUE/RED</div></div>`;}
+function empty(){return `<div class="empty"><div class="empty-title">No data for this filter</div><div class="empty-sub">Try ALL instead of BLUE/RED</div></div>`;}
 
 function renderAll(){
   const g=filtered();
-  renderResumen(g);renderFirstClear(g);renderRutas(g);renderGank(g);renderObjetivos(g);renderPartidas(g);
+  renderOverview(g);renderFirstClear(g);renderRoutes(g);renderGank(g);renderObjectives(g);renderGames(g);
 }
 
 document.querySelectorAll('.nav-tab').forEach(t=>{
@@ -419,7 +419,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
   await loadDD();
   let loaded=false;
 
-  // 1. Flask API (puerto dinámico — prueba 5000 y 8100)
+  // 1. Flask API (dynamic port — tries 5000 and 8100)
   for(const port of [5000]){
     if(loaded) break;
     try{
@@ -431,7 +431,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
     }catch(e){}
   }
 
-  // 2. Fallback: jungle_season.json relativo (funciona cuando Flask sirve el archivo)
+  // 2. Fallback: jungle_season.json relative (works when Flask serves the file)
   if(!loaded){
     try{
       const r=await fetch('jungle_season.json');
@@ -439,7 +439,7 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
     }catch(e){}
   }
 
-  // 3. Fallback: ruta absoluta desde output/
+  // 3. Fallback: absolute path from output/
   if(!loaded){
     try{
       const r=await fetch('/output/jungle_season.json',{signal:AbortSignal.timeout(2000)});
@@ -451,14 +451,14 @@ document.querySelectorAll('.nav-tab').forEach(t=>{
     const deduped=allGames();
     const totalG=deduped.length;
     const totalS=new Set(deduped.map(g=>g.series_label||'').filter(l=>l&&l!=='output')).size || SD.total_series;
-    document.getElementById('hdrMeta').textContent=`${totalG} game${totalG!==1?'s':''} · ${totalS} serie${totalS!==1?'s':''}`;
+    document.getElementById('hdrMeta').textContent=`${totalG} game${totalG!==1?'s':''} · ${totalS} series`;
     renderAll();
   } else {
-    document.getElementById('hdrMeta').textContent='sin datos';
-    ['resumen','first_clear','rutas','gank','objetivos','partidas'].forEach(p=>{
+    document.getElementById('hdrMeta').textContent='no data';
+    ['overview','first_clear','routes','gank','objectives','games'].forEach(p=>{
       document.getElementById(`pv-${p}`).innerHTML=`<div class="empty">
-        <div class="empty-title">Sin datos — descarga al menos una serie primero</div>
-        <div class="empty-sub">El War Room lee automáticamente de todas las series descargadas</div>
+        <div class="empty-title">No data — download at least one series first</div>
+        <div class="empty-sub">The War Room reads automatically from all downloaded series</div>
       </div>`;
     });
   }

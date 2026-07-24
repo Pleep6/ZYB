@@ -119,7 +119,7 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'I
 /* ── SOLOQ TRACKER ── */
 .sq-grid{display:flex;flex-direction:column;gap:6px;}
 .sq-card{background:var(--panel);border:1px solid var(--border);border-radius:5px;overflow:hidden;}
-/* Sin columna de forma — 4 columnas */
+/* No form column — 4 columns */
 .sq-hdr{display:grid;grid-template-columns:26px 160px 120px 1fr;align-items:center;gap:0;border-bottom:1px solid var(--border);}
 .sq-role-bar{display:flex;align-items:center;justify-content:center;writing-mode:vertical-lr;font-family:'Inter',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 0;}
 .role-top    .sq-role-bar{background:rgba(79,195,247,.08);color:var(--top);border-right:2px solid var(--top);}
@@ -214,13 +214,13 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'I
 <body>
 
 <div id="loading">
-  <div class="ld-title">Cargando scoreboard</div>
+  <div class="ld-title">Loading scoreboard</div>
   <div class="ld-dots"><div class="ld-dot"></div><div class="ld-dot"></div><div class="ld-dot"></div></div>
 </div>
 <div id="error-msg">
   <div class="err-icon">&#9888;&#65039;</div>
-  <div class="err-text">Sin datos disponibles</div>
-  <div class="err-sub">Procesa al menos una serie primero</div>
+  <div class="err-text">No data available</div>
+  <div class="err-sub">Process at least one series first</div>
 </div>
 
 <!-- Modal soloq individual -->
@@ -263,44 +263,44 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'I
 
     <!-- Game stats -->
     <div>
-      <div class="sec">ESTADÍSTICAS GENERALES <span class="sec-accent">·</span> MEDIAS POR PARTIDA</div>
+      <div class="sec">GENERAL STATS <span class="sec-accent">·</span> AVERAGES PER GAME</div>
       <div class="gstats-grid" id="gstats-wrap" style="margin-top:10px;"></div>
     </div>
 
     <!-- Roster -->
     <div>
-      <div class="sec">ROSTER <span class="sec-accent">·</span> MEDIAS POR PARTIDA <span style="font-size:.5rem;color:var(--gold);margin-left:8px;">· CLIC PARA VER SOLOQ</span></div>
+      <div class="sec">ROSTER <span class="sec-accent">·</span> AVERAGES PER GAME <span style="font-size:.5rem;color:var(--gold);margin-left:8px;">· CLICK TO VIEW SOLOQ</span></div>
       <div class="players" id="roster-wrap" style="margin-top:10px;"></div>
     </div>
 
     <!-- Objectives -->
     <div>
-      <div class="sec">OBJETIVOS <span class="sec-accent">·</span> % SOBRE TOTAL DE PARTIDAS</div>
+      <div class="sec">OBJECTIVES <span class="sec-accent">·</span> % OVER TOTAL GAMES</div>
       <div class="obj-grid" id="obj-wrap" style="margin-top:10px;"></div>
     </div>
 
     <!-- Side stats -->
     <div>
-      <div class="sec">RENDIMIENTO POR LADO</div>
+      <div class="sec">SIDE PERFORMANCE</div>
       <div class="side-grid" id="side-wrap" style="margin-top:10px;"></div>
     </div>
 
     <!-- Lane Diff -->
     <div>
-      <div class="sec">LANE DIFF <span class="sec-accent">·</span> MEDIAS @15MIN + PLATE GOLD</div>
+      <div class="sec">LANE DIFF <span class="sec-accent">·</span> AVERAGES @15MIN + PLATE GOLD</div>
       <div class="lanediff-grid" id="lanediff-wrap" style="margin-top:10px;"></div>
     </div>
 
     <!-- Soloq Tracker -->
     <div>
-      <div class="sec">SOLOQ TRACKER <span class="sec-accent">·</span> ÚLTIMOS 14 DÍAS · MÁX 40 EN ROL</div>
+      <div class="sec">SOLOQ TRACKER <span class="sec-accent">·</span> LAST 14 DAYS · MAX 40 IN ROLE</div>
       <div id="soloq-wrap" style="margin-top:10px;">
         <div id="soloq-progress" style="display:none;">
-          <div class="sq-prog-title">CARGANDO DATOS SOLOQ — RIOT API (puede tardar 2-3 min)</div>
+          <div class="sq-prog-title">LOADING SOLOQ DATA — RIOT API (may take 2-3 min)</div>
           <div class="sq-prog-bar-wrap"><div class="sq-prog-bar-fill" id="sq-prog-fill" style="width:0%"></div></div>
           <div class="sq-prog-players" id="sq-prog-players"></div>
         </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);" id="soloq-placeholder">Esperando datos soloq...</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text2);" id="soloq-placeholder">Waiting for soloq data...</div>
       </div>
     </div>
 
@@ -359,9 +359,9 @@ function renderGameStats(data) {
   const obj  = data.objectives || {};
   const gs   = data.game_stats || {};
   const items = [
-    { icon:'&#127984;', lbl:'Torres / partida',     val: gs.avg_towers      != null ? Number(gs.avg_towers).toFixed(1) + ' torres' : '&#8212;' },
-    { icon:'&#128176;', lbl:'Plate gold / partida', val: gs.avg_plates_gold != null ? Math.round(gs.avg_plates_gold) + 'g' : '&#8212;' },
-    { icon:'&#129408;', lbl:'Primer cangrejo %',    val: gs.first_scuttler  != null ? pct(gs.first_scuttler) : '&#8212;' },
+    { icon:'&#127984;', lbl:'Towers / game',       val: gs.avg_towers      != null ? Number(gs.avg_towers).toFixed(1) + ' towers' : '&#8212;' },
+    { icon:'&#128176;', lbl:'Plate gold / game',   val: gs.avg_plates_gold != null ? Math.round(gs.avg_plates_gold) + 'g' : '&#8212;' },
+    { icon:'&#129408;', lbl:'First crab %',        val: gs.first_scuttler  != null ? pct(gs.first_scuttler) : '&#8212;' },
     { icon:'&#128081;', lbl:'Baron %',              val: obj.baron           ? pct(obj.baron.pct) : '&#8212;' },
   ];
   items.forEach(({ icon, lbl, val }) => {
@@ -409,8 +409,8 @@ function renderRoster(roster) {
       '<div class="pc-champs">' + champsHtml + '</div>' +
       '<div class="pc-name-cell">' +
         '<div class="pc-name">' + nick + '</div>' +
-        '<div class="pc-games">' + p.games + ' partidas</div>' +
-        '<div class="pc-sq-status" id="sq-status-' + nick.toLowerCase() + '">soloq cargando&#8230;</div>' +
+        '<div class="pc-games">' + p.games + ' games</div>' +
+        '<div class="pc-sq-status" id="sq-status-' + nick.toLowerCase() + '">soloq loading&#8230;</div>' +
       '</div>' +
       '<div class="pc-kda-cell">' +
         '<div class="kda-nums">' +
@@ -454,7 +454,7 @@ function renderObjectives(obj) {
     card.innerHTML =
       '<div class="obj-pct" style="color:' + col + '">' + pct(d.pct) + '</div>' +
       '<div class="obj-lbl">' + lbl + '</div>' +
-      '<div class="obj-sub">' + d.wins + ' / ' + d.total + ' partidas</div>' +
+      '<div class="obj-sub">' + d.wins + ' / ' + d.total + ' games</div>' +
       '<div class="obj-bar"><div class="obj-fill" style="width:' + d.pct + '%;background:' + col + '"></div></div>';
     wrap.appendChild(card);
   });
@@ -465,7 +465,7 @@ function renderLaneDiffs(diffs) {
   const wrap = document.getElementById('lanediff-wrap');
   if (!wrap) return;
   if (!diffs || !Object.keys(diffs).length) {
-    wrap.innerHTML = '<div style="color:var(--text2);font-family:\'JetBrains Mono\',monospace;font-size:.6rem;">Sin datos de lane diff</div>';
+    wrap.innerHTML = '<div style="color:var(--text2);font-family:\'JetBrains Mono\',monospace;font-size:.6rem;">No lane diff data</div>';
     return;
   }
   const ROLE_ORD = ['top','jungle','mid','middle','bottom','adc','support'];
@@ -478,7 +478,7 @@ function renderLaneDiffs(diffs) {
     const cs   = Number(d.avg_cs_diff    || 0);
     const g    = Number(d.avg_gold_diff  || 0);
     const pg   = d.avg_plate_gold != null ? Math.round(d.avg_plate_gold) : null;
-    // Badge: jungla siempre "GANKS" (oro de placas = presencia en map), resto "LANE"
+    // Badge: jungle always "GANKS" (plate gold = map presence), rest "LANE"
     const isJgl   = role === 'jungle';
     const badgeCls = isJgl ? 'gank' : 'lane';
     const badgeTxt = isJgl ? 'GANKS' : 'LANE';
@@ -516,9 +516,9 @@ function renderSides(side_obj) {
     const card = document.createElement('div');
     card.className = 'side-card';
     const rowsHtml = [
-      {lbl:'Partidas',  val:s.games,    bar:false},
-      {lbl:'Victorias', val:s.wins,     bar:false},
-      {lbl:'Win Rate',  val:pct(s.pct), bar:true, pct:s.pct, color:cVar},
+      {lbl:'Games',    val:s.games,    bar:false},
+      {lbl:'Wins',     val:s.wins,     bar:false},
+      {lbl:'Win Rate', val:pct(s.pct), bar:true, pct:s.pct, color:cVar},
     ].map(r =>
       '<div class="side-row"><span class="side-key">' + r.lbl + '</span><span class="side-val">' + r.val + '</span>' +
       (r.bar ? '<div class="side-bar-wrap"><div class="side-bar-fill" style="width:' + r.pct + '%;background:' + r.color + '"></div></div>' : '<div style="flex:2"></div>') +
@@ -533,7 +533,7 @@ function renderSides(side_obj) {
 
 async function loadSoloqAllPlayers(teamTag, days) {
   days = days || 30;
-  if (!teamTag) { setSoloqPlaceholder('Sin team_tag — verifica players.csv'); return; }
+  if (!teamTag) { setSoloqPlaceholder('No team_tag — check players.csv'); return; }
   soloqTeamTag = teamTag;
 
   // ── Comprobar localStorage ────────────────────────────────────────────────
@@ -542,7 +542,7 @@ async function loadSoloqAllPlayers(teamTag, days) {
   try {
     const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
     if (cached && cached.cached_at && (Date.now()/1000 - cached.cached_at) < CACHE_TTL) {
-      console.log('soloq: sirviendo desde localStorage');
+      console.log('soloq: serving from localStorage');
       cached.players.forEach(p => {
         const nick = (p.name || '').split(' ').pop().toLowerCase();
         soloqCache[nick] = p;
@@ -579,7 +579,7 @@ async function loadSoloqAllPlayers(teamTag, days) {
   } catch(e) {
     if (progBox) progBox.style.display = 'none';
     if (placeholder) placeholder.style.display = 'block';
-    setSoloqPlaceholder('Error soloq: ' + e.message);
+    setSoloqPlaceholder('Soloq error: ' + e.message);
     return;
   }
 
@@ -588,11 +588,11 @@ async function loadSoloqAllPlayers(teamTag, days) {
   if (data.error || !data.players || !data.players.length) {
     if (progBox) progBox.style.display = 'none';
     if (placeholder) placeholder.style.display = 'block';
-    setSoloqPlaceholder(data.error || 'Sin jugadores para: ' + teamTag);
+    setSoloqPlaceholder(data.error || 'No players for: ' + teamTag);
     return;
   }
 
-  // ── Guardar en localStorage ───────────────────────────────────────────────
+  // ── Save to localStorage ─────────────────────────────────────────────────
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e) {}
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -635,7 +635,7 @@ function renderSoloqGrid(players) {
   const wrap = document.getElementById('soloq-wrap');
   wrap.innerHTML = '';
 
-  // Ordenar por rol
+  // Sort by role
   const ROLE_ORD = ['top','jungle','mid','middle','bottom','adc','support'];
   players = [...players].sort((a, b) => {
     const ai = ROLE_ORD.indexOf((a.role || '').toLowerCase());
@@ -646,8 +646,8 @@ function renderSoloqGrid(players) {
   const legend = document.createElement('div');
   legend.style.cssText = "display:flex;gap:12px;margin-bottom:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text2);";
   legend.innerHTML =
-    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--green);margin-right:4px;vertical-align:middle;"></span>Juega en comp</span>' +
-    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--orange);margin-right:4px;vertical-align:middle;"></span>Nuevo (solo soloq)</span>';
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--green);margin-right:4px;vertical-align:middle;"></span>Plays in comp</span>' +
+    '<span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--orange);margin-right:4px;vertical-align:middle;"></span>New (soloq only)</span>';
   wrap.appendChild(legend);
 
   const grid = document.createElement('div');
@@ -687,14 +687,14 @@ function renderSoloqGrid(players) {
 
     const newArr  = p.new_picks || [];
     const newHtml = newArr.length
-      ? '<div class="sq-new-section"><span class="sq-new-lbl">&#128260; Practicando:</span>' +
+      ? '<div class="sq-new-section"><span class="sq-new-lbl">&#128260; Practicing:</span>' +
         newArr.slice(0,5).map(c => '<span class="sq-new-chip">' + c + '</span>').join('') +
         '</div>'
       : '';
 
     const wrCol = p.wr >= 55 ? 'var(--green)' : p.wr >= 45 ? 'var(--text2)' : 'var(--red)';
 
-    // Sin columna de forma — sq-hdr tiene 4 cols
+    // No form column — sq-hdr has 4 cols
     card.innerHTML =
       '<div class="sq-hdr ' + rc + '">' +
         '<div class="sq-role-bar">' + roleLabel((p.role||'').toLowerCase()) + '</div>' +
@@ -704,7 +704,7 @@ function renderSoloqGrid(players) {
         '</div>' +
         '<div class="sq-ranked">' +
           '<div class="sq-rank-val">' + (p.ranked || 'Unranked') + '</div>' +
-          '<div class="sq-rank-sub" style="color:' + wrCol + '">' + p.wins + 'W ' + p.losses + 'L \u00b7 ' + p.wr + '%WR · ' + (p.total || 0) + 'G temporada</div>' +
+          '<div class="sq-rank-sub" style="color:' + wrCol + '">' + p.wins + 'W ' + p.losses + 'L \u00b7 ' + p.wr + '%WR · ' + (p.total || 0) + 'G season</div>' +
         '</div>' +
         '<div class="sq-champs">' + champsHtml + '</div>' +
       '</div>' + newHtml;
@@ -729,17 +729,17 @@ function openSoloqModal(compPlayer) {
   const body  = document.getElementById('modal-body');
   const title = document.getElementById('modal-title');
 
-  title.textContent = nick + ' \u00b7 Soloq vs Competici\u00f3n';
+  title.textContent = nick + ' \u00b7 Soloq vs Competition';
   modal.style.display = 'flex';
 
   if (!sq) {
-    // Intentar buscar por nombre completo o variantes
+    // Try lookup by full name or variants
     const nickVariants = [nick.toLowerCase(), (compPlayer.playerName||'').toLowerCase()];
     for (const v of nickVariants) {
       if (soloqCache[v]) { renderModalContent(body, soloqCache[v], compPlayer); return; }
     }
     body.innerHTML = '<div style="padding:40px;text-align:center;font-family:\'JetBrains Mono\',monospace;font-size:.7rem;color:var(--text2);">' +
-      (soloqTeamTag ? 'Datos soloq aún cargando\u2026 (recarga el scoreboard si ya terminó)' : 'Sin datos soloq \u2014 configura RIOT_API_KEY y players.csv') +
+      (soloqTeamTag ? 'Soloq data still loading\u2026 (reload the scoreboard if it already finished)' : 'No soloq data \u2014 configure RIOT_API_KEY and players.csv') +
       '</div>';
     return;
   }
@@ -757,7 +757,7 @@ function renderModalContent(body, sq, compPlayer) {
   const soloq    = sq.top_soloq || [];
   const wrCol    = sq.wr >= 55 ? 'var(--green)' : sq.wr >= 45 ? 'var(--text2)' : 'var(--red)';
 
-  // ── Stat blocks: tipografía estilo "TOP/JGL/MID" ──────────────────────────
+  // ── Stat blocks: typography style "TOP/JGL/MID" ──────────────────────────
   function statBlock(lbl, compVal, sqVal) {
     const c    = Number(compVal || 0);
     const s    = Number(sqVal   || 0);
@@ -788,13 +788,13 @@ function renderModalContent(body, sq, compPlayer) {
     statBlock('CS/G',    compPlayer.avg_cs,      sq.avg_cs      || 0) +
     '</div>';
 
-  // ── Título CAMPEONES SOLOQ grande ─────────────────────────────────────────
+  // ── SOLOQ CHAMPS title (large) ─────────────────────────────────────────
   const totalRanked  = sq.total        || 0;
   const validMatches = sq.valid_matches || 0;
 
   const champsHtml = '<div style="margin-bottom:20px;">' +
-    '<div class="modal-sec-title">Campeones Soloq' +
-      '<span class="modal-sec-sub">' + totalRanked + ' ranked esta temporada · ' + validMatches + ' analizadas</span>' +
+    '<div class="modal-sec-title">Soloq Champions' +
+      '<span class="modal-sec-sub">' + totalRanked + ' ranked this season · ' + validMatches + ' analyzed</span>' +
     '</div>' +
     '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
     soloq.map(c => {
@@ -811,15 +811,15 @@ function renderModalContent(body, sq, compPlayer) {
         '<div style="font-family:\'Barlow Condensed\',\'Inter\',sans-serif;font-size:11px;font-weight:700;color:var(--text);text-align:center;max-width:68px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:1px;text-transform:uppercase;">' + c.champ + '</div>' +
 '<div style="font-family:\'Barlow Condensed\',\'Inter\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:' + wrC + ';">' + c.wr + '% WR</div>' +
 '<div style="font-family:\'Barlow Condensed\',\'Inter\',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--text2);">' + c.games + 'G · ' + c.kda_ratio + ' KDA</div>' +
-        '<div style="font-family:\'Inter\',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:' + bCol + ';">' + (isComp ? '\u2713 COMP' : '\u2605 NUEVO') + '</div>' +
+        '<div style="font-family:\'Inter\',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;color:' + bCol + ';">' + (isComp ? '\u2713 COMP' : '\u2605 NEW') + '</div>' +
         '</div>';
     }).join('') +
     '</div></div>';
 
-  // ── Pool en competición ───────────────────────────────────────────────────
+  // ── Competition pool ───────────────────────────────────────────────────────
   const compPoolArr  = Array.from(compPool);
   const compPoolHtml = compPoolArr.length ? '<div style="margin-bottom:16px;">' +
-    '<div class="modal-sec-title" style="font-size:11px;">Pool en Competición</div>' +
+    '<div class="modal-sec-title" style="font-size:11px;">Competition Pool</div>' +
     '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
     compPoolArr.map(c =>
       '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">' +
@@ -831,7 +831,7 @@ function renderModalContent(body, sq, compPlayer) {
     ).join('') +
     '</div></div>' : '';
 
-  // ── Header del modal: elo + record ────────────────────────────────────────
+  // ── Modal header: elo + record ────────────────────────────────────────
   body.innerHTML =
     '<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--border);">' +
       '<div style="font-family:\'JetBrains Mono\',monospace;font-size:.6rem;color:var(--text2);">' + (sq.riot_id||'') + '</div>' +
@@ -850,11 +850,11 @@ async function init() {
     await loadDD();
     let r;
     try {
-      // Intenta Flask primero
+      // Try Flask first
       r = await fetch(FLASK + '/api/team_scoreboard');
-      if (!r.ok) throw new Error('flask no disponible');
+      if (!r.ok) throw new Error('flask unavailable');
     } catch(e) {
-      // Fallback a JSON estático
+      // Fallback to static JSON
       r = await fetch('./game_data.json');
     }
     if (!r.ok) throw new Error('no data');
@@ -865,9 +865,9 @@ async function init() {
     return;
   }
 
-  document.getElementById('hdr-name').textContent = data.our_name || 'Equipo';
+  document.getElementById('hdr-name').textContent = data.our_name || 'Team';
   document.getElementById('hdr-meta').textContent =
-    data.total_series + ' serie' + (data.total_series !== 1 ? 's' : '') + ' \u00b7 ' + data.total_games + ' partidas';
+    data.total_series + ' series' + ' \u00b7 ' + data.total_games + ' games';
 
   const logoEl = document.getElementById('hdr-logo');
   if (data.team_logo) {

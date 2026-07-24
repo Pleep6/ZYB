@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>LoL Scouting — War Room</title>
@@ -23,6 +23,12 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 .tb-sep{width:1px;height:20px;background:var(--border);}
 .tb-sub{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:var(--text2);letter-spacing:2px;}
 .tb-hint{font-family:'Share Tech Mono',monospace;font-size:.56rem;color:#2a3840;letter-spacing:1px;}
+.health-badge{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:1px;padding:3px 9px;border-radius:3px;border:1px solid var(--border);cursor:default;position:relative;margin-left:10px;}
+.health-badge.ok{color:var(--green);border-color:rgba(102,187,106,.35);background:rgba(102,187,106,.06);}
+.health-badge.warn{color:var(--orange);border-color:rgba(255,152,0,.35);background:rgba(255,152,0,.06);}
+.health-badge:hover .health-tip{display:block;}
+.health-tip{display:none;position:absolute;top:100%;right:0;margin-top:6px;background:var(--panel2);border:1px solid var(--border);border-radius:5px;padding:8px 10px;min-width:260px;max-width:360px;z-index:50;font-size:.62rem;line-height:1.6;color:var(--text);text-align:left;letter-spacing:0;box-shadow:0 4px 16px rgba(0,0,0,.4);}
+.health-tip div{padding:1px 0;}
 
 /* ── MAIN LAYOUT ── */
 #main{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;}
@@ -121,7 +127,7 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 .vsep{flex:1;}
 #vframe{flex:1;border:none;width:100%;height:100%;}
 
-/* ── BOTÓN FLOTANTE PDF ── */
+/* ── FLOATING PDF BUTTON ── */
 #btn-pdf-float {
   position: fixed;
   bottom: 24px;
@@ -176,12 +182,18 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
     <div class="tb-sep"></div>
     <span class="tb-sub">WAR ROOM · GRID EVENTS ANALYZER</span>
   </div>
-  <span class="tb-hint">ESC para volver · clic para abrir</span>
+  <div style="display:flex;align-items:center;">
+    <span class="tb-hint">ESC to go back · click to open</span>
+    <span class="health-badge ok" id="health-badge" style="display:none">
+      <span id="health-label">checking...</span>
+      <div class="health-tip" id="health-tip"></div>
+    </span>
+  </div>
 </div>
 
-<!-- BOTÓN FLOTANTE PDF -->
+<!-- FLOATING PDF BUTTON -->
 <button id="btn-pdf-float" onclick="exportPDF()">
-  📄 Exportar PDF rival
+  📄 Export Opponent PDF
 </button>
 
 <!-- GAME REPORT MODAL -->
@@ -189,7 +201,7 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
   <div class="modal-inner">
     <div class="modal-title">📄 Game Report</div>
     <div class="modal-btns" id="gr-buttons"></div>
-    <button class="modal-cancel" onclick="document.getElementById('gr-modal').style.display='none'">Cancelar</button>
+    <button class="modal-cancel" onclick="document.getElementById('gr-modal').style.display='none'">Cancel</button>
   </div>
 </div>
 
@@ -197,46 +209,46 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 
   <!-- ── GLOBAL SECTION ── -->
   <div class="section-hdr">
-    <span class="section-label global">⚡ Análisis de Temporada</span>
-    <span class="section-count" id="global-count">global · todas las series</span>
+    <span class="section-label global">⚡ Season Analysis</span>
+    <span class="section-count" id="global-count">global · all series</span>
   </div>
   <div class="global-grid">
 
     <div class="card acc-gold" onclick="open_('team_scoreboard.html','🏆 Team Scoreboard')">
-      <div class="card-tag">TEMPORADA</div>
+      <div class="card-tag">SEASON</div>
       <div class="card-icon">🏆</div>
       <div class="card-title">Team Scoreboard</div>
-      <div class="card-sub">KDA · CS · Gold · Campeones<br>Objetivos · Blue vs Red</div>
-      <div class="card-status pending" id="sSB">comprobando...</div>
+      <div class="card-sub">KDA · CS · Gold · Champions<br>Objectives · Blue vs Red</div>
+      <div class="card-status pending" id="sSB">checking...</div>
     </div>
 
     <div class="card acc-gold2" onclick="open_('draft_analysis.html','📊 Draft Analysis')">
-      <div class="card-tag">TEMPORADA</div>
+      <div class="card-tag">SEASON</div>
       <div class="card-icon">📊</div>
       <div class="card-title">Draft Analysis</div>
-      <div class="card-sub">Pick/Ban rates · Slots<br>Versus · Pool por jugador</div>
-      <div class="card-status pending" id="sDraftA">comprobando...</div>
+      <div class="card-sub">Pick/Ban rates · Slots<br>Versus · Player pool</div>
+      <div class="card-status pending" id="sDraftA">checking...</div>
     </div>
 
     <div class="card acc-purple" onclick="open_('series_support_wards_season.html','👁 Season Wards')">
-      <div class="card-tag">TEMPORADA</div>
+      <div class="card-tag">SEASON</div>
       <div class="card-icon">👁</div>
       <div class="card-title">Season Wards</div>
-      <div class="card-sub">Heatmap acumulado · Multi-serie<br>Blue vs Red · Por fase</div>
-      <div class="card-status pending" id="sWS">comprobando...</div>
+      <div class="card-sub">Cumulative heatmap · Multi-series<br>Blue vs Red · By phase</div>
+      <div class="card-status pending" id="sWS">checking...</div>
     </div>
 
     <div class="card acc-blue" onclick="open_('jungle_analysis.html','🌲 Jungle Analysis')">
-      <div class="card-tag">TEMPORADA</div>
+      <div class="card-tag">SEASON</div>
       <div class="card-icon">🌲</div>
       <div class="card-title">Jungle Analysis</div>
-      <div class="card-sub">First clear · Rutas frecuentes<br>Primer gank · Blue vs Red</div>
-      <div class="card-status pending" id="sJA">comprobando...</div>
+      <div class="card-sub">First clear · Common routes<br>First gank · Blue vs Red</div>
+      <div class="card-status pending" id="sJA">checking...</div>
     </div>
 
   </div>
 
-  <!-- ── SERIES SECTIONS (generadas dinámicamente) ── -->
+  <!-- ── SERIES SECTIONS (dynamically generated) ── -->
   <div id="series-container"></div>
 
 </div>
@@ -244,10 +256,10 @@ html,body{height:100vh;width:100vw;overflow:hidden;background:var(--dark);color:
 <!-- VIEWER -->
 <div id="viewer">
   <div id="vbar">
-    <button class="back" onclick="closeV()">← Volver</button>
+    <button class="back" onclick="closeV()">← Back</button>
     <span id="vtitle"></span>
     <span class="vsep"></span>
-    <span style="font-family:'Share Tech Mono',monospace;font-size:.54rem;color:#2a3840;">ESC para cerrar</span>
+    <span style="font-family:'Share Tech Mono',monospace;font-size:.54rem;color:#2a3840;">ESC to close</span>
   </div>
   <iframe id="vframe" src="" title="Viewer"></iframe>
 </div>
@@ -264,22 +276,46 @@ globalChecks.forEach(function(c){
   fetch(c.url,{method:'HEAD'}).then(function(r){
     var el=document.getElementById(c.id);
     if(!el) return;
-    el.textContent=r.ok?'✓ listo':'✗ sin datos';
+    el.textContent=r.ok?'✓ ready':'✗ no data';
     el.className='card-status '+(r.ok?'ok':'missing');
   }).catch(function(){
     var el=document.getElementById(c.id);
     if(!el) return;
-    el.textContent='✗ sin datos';
+    el.textContent='✗ no data';
     el.className='card-status missing';
   });
+});
+
+// ── HEALTH CHECK ─────────────────────────────────────────────────────────────
+fetch('http://localhost:5000/api/health').then(function(r){return r.json();}).then(function(d){
+  var badge = document.getElementById('health-badge');
+  var tip   = document.getElementById('health-tip');
+  if(!badge) return;
+  badge.style.display = 'inline-block';
+  var warnings = d.warnings || [];
+  if(!warnings.length){
+    badge.className = 'health-badge ok';
+    document.getElementById('health-label').textContent = '✓ all good';
+    tip.innerHTML = '<div style="color:var(--green)">Everything looks configured correctly.</div>';
+  } else {
+    badge.className = 'health-badge warn';
+    document.getElementById('health-label').textContent = '⚠ ' + warnings.length + ' warning' + (warnings.length!==1?'s':'');
+    tip.innerHTML = warnings.map(function(w){ return '<div>⚠ ' + w + '</div>'; }).join('');
+  }
+}).catch(function(){
+  var badge = document.getElementById('health-badge');
+  if(!badge) return;
+  badge.style.display = 'inline-block';
+  badge.className = 'health-badge warn';
+  document.getElementById('health-label').textContent = '⚠ backend unreachable';
 });
 
 // ── SERIES DISCOVERY ─────────────────────────────────────────────────────────
 var SERIES_META = [
   {file:'series_picks_bans.html',     icon:'📋', title:'Picks & Bans',    acc:'acc-gold2',  sub:'Draft · Fearless · Picks/Bans'},
-  {file:'series_jungle_pathing.html', icon:'🗺',  title:'Jungle Pathing', acc:'acc-orange', sub:'Rutas · Objetivos · Playback'},
+  {file:'series_jungle_pathing.html', icon:'🗺',  title:'Jungle Pathing', acc:'acc-orange', sub:'Routes · Objectives · Playback'},
   {file:'series_support_wards.html',  icon:'👁',  title:'Support Wards',  acc:'acc-purple', sub:'Heatmap · Control · Stealth'},
-  {file:'series_game_stats.html',     icon:'📊',  title:'Game Stats',     acc:'acc-blue',   sub:'Objetivos · Roster · Medias'},
+  {file:'series_game_stats.html',     icon:'📊',  title:'Game Stats',     acc:'acc-blue',   sub:'Objectives · Roster · Averages'},
 ];
 
 function buildSeriesSection(dir, games) {
@@ -312,11 +348,11 @@ function buildSeriesSection(dir, games) {
     var card = document.createElement('div');
     card.className = 'card ' + m.acc;
     card.innerHTML =
-      '<div class="card-tag">SERIE</div>' +
+      '<div class="card-tag">SERIES</div>' +
       '<div class="card-icon">' + m.icon + '</div>' +
       '<div class="card-title">' + m.title + '</div>' +
       '<div class="card-sub">' + m.sub + '</div>' +
-      '<div class="card-status pending" id="s_' + dir + '_' + m.file + '">comprobando...</div>';
+      '<div class="card-status pending" id="s_' + dir + '_' + m.file + '">checking...</div>';
     var path = dir + '/' + m.file;
     card.onclick = (function(p, t) { return function(){ open_(p, m.icon+' '+t); }; })(path, m.title);
     grid.appendChild(card);
@@ -324,12 +360,12 @@ function buildSeriesSection(dir, games) {
     fetch(path, {method:'HEAD'}).then(function(r){
       var el = document.getElementById('s_' + dir + '_' + m.file);
       if (!el) return;
-      el.textContent = r.ok ? '✓ listo' : '✗ sin datos';
+      el.textContent = r.ok ? '✓ ready' : '✗ no data';
       el.className = 'card-status ' + (r.ok ? 'ok' : 'missing');
       if (!r.ok) card.style.opacity = '0.45';
     }).catch(function(){
       var el = document.getElementById('s_' + dir + '_' + m.file);
-      if (el) { el.textContent = '✗ sin datos'; el.className = 'card-status missing'; }
+      if (el) { el.textContent = '✗ no data'; el.className = 'card-status missing'; }
       card.style.opacity = '0.45';
     });
   });
@@ -338,11 +374,11 @@ function buildSeriesSection(dir, games) {
   var grCard = document.createElement('div');
   grCard.className = 'card acc-red';
   grCard.innerHTML =
-    '<div class="card-tag">POR PARTIDA</div>' +
+    '<div class="card-tag">PER GAME</div>' +
     '<div class="card-icon">📄</div>' +
     '<div class="card-title">Game Report</div>' +
-    '<div class="card-sub">Scoreboard · Lane diff @15<br>Items · Kills · Objetivos</div>' +
-    '<div class="card-status pending" id="sgr_' + dir + '">buscando...</div>';
+    '<div class="card-sub">Scoreboard · Lane diff @15<br>Items · Kills · Objectives</div>' +
+    '<div class="card-status pending" id="sgr_' + dir + '">searching...</div>';
 
   var foundGames = [];
   var grChecks = [];
@@ -364,7 +400,7 @@ function buildSeriesSection(dir, games) {
       el.textContent = '✓ ' + foundGames.map(function(g){return 'G'+g;}).join(' · ');
       el.className = 'card-status ok';
     } else {
-      el.textContent = '✗ sin datos';
+      el.textContent = '✗ no data';
       el.className = 'card-status missing';
       grCard.style.opacity = '0.45';
     }
@@ -404,7 +440,7 @@ var _scoutedTeam = '';
 function inferScoutedTeam(dirs) {
   if (!dirs.length) return '';
   var teamSets = dirs.map(function(dir) {
-    // Eliminar fecha en cualquier formato: DD-MM-YYYY o YYYY-MM-DD
+    // Remove date in any format: DD-MM-YYYY or YYYY-MM-DD
     var clean = dir.replace(/_\d{2}-\d{2}-\d{4}$/, '')
                    .replace(/_\d{4}-\d{2}-\d{2}$/, '');
     var parts = clean.split('_vs_');
@@ -448,21 +484,21 @@ function inferScoutedTeam(dirs) {
         })
         .catch(function(){
           document.getElementById('series-container').innerHTML =
-            '<div style="padding:24px 16px;font-family:\'Share Tech Mono\',monospace;font-size:.6rem;color:#2a3840;letter-spacing:1px;">Sin series detectadas — procesa al menos una serie primero</div>';
+            '<div style="padding:24px 16px;font-family:\'Share Tech Mono\',monospace;font-size:.6rem;color:#2a3840;letter-spacing:1px;">No series detected — process at least one series first</div>';
         });
     });
 })();
 
 function updateGlobalCount(n) {
   var el = document.getElementById('global-count');
-  if (el) el.textContent = 'global · ' + n + ' serie' + (n !== 1 ? 's' : '');
+  if (el) el.textContent = 'global · ' + n + ' series';
 }
 
 // ── EXPORT PDF ───────────────────────────────────────────────────────────────
 function exportPDF() {
   var btn = document.getElementById('btn-pdf-float');
   btn.disabled = true;
-  btn.textContent = '⏳ Generando...';
+  btn.textContent = '⏳ Generating...';
 
   fetch('http://localhost:5000/export/team_profile_pdf?team=' + encodeURIComponent(_scoutedTeam))
     .then(function(r) {
@@ -478,13 +514,13 @@ function exportPDF() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      btn.textContent = '✅ Descargado';
-      setTimeout(function(){ btn.textContent = '📄 Exportar PDF rival'; btn.disabled = false; }, 2500);
+      btn.textContent = '✅ Downloaded';
+      setTimeout(function(){ btn.textContent = '📄 Export Opponent PDF'; btn.disabled = false; }, 2500);
     })
     .catch(function(err) {
       btn.textContent = '❌ ' + err.message;
       btn.disabled = false;
-      setTimeout(function(){ btn.textContent = '📄 Exportar PDF rival'; }, 3000);
+      setTimeout(function(){ btn.textContent = '📄 Export Opponent PDF'; }, 3000);
     });
 }
 
